@@ -2,7 +2,7 @@
  * 认证相关中间件
  */
 
-import errors from '../helpers/errors';
+import errors from '../errors';
 import * as settingServices from '../services/setting';
 
 /**

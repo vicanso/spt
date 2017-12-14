@@ -1,8 +1,6 @@
 /**
  * 此中间件主要对于所有请求做入口的初始化
  */
-// const _ = require('lodash');
-// const ms = require('ms');
 import _ from 'lodash';
 import ms from 'ms';
 
@@ -69,4 +67,4 @@ export default (appInfo, appUrlPrefix) => async (ctx, next) => {
     timing.end();
     ctx.set('Server-Timing', timing.toServerTiming(true));
   }
-}
+};

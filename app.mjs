@@ -6,6 +6,7 @@ import redis from './base/helpers/redis';
 import * as settingService from './base/services/setting';
 import influx from './base/helpers/influx';
 import dns from './base/helpers/dns';
+import createServer from './base/helpers/server';
 
 
 function mongodbReady() {
@@ -31,6 +32,7 @@ Promise.all([
   }
   // 启用自定义DNS，如果没有自定义的需求，可以不使用
   dns();
+  createServer();
 }).catch((err) => {
   console.error(`the application isn't ready, ${err.message}`);
 });

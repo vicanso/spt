@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import * as errors from '../helpers/errors';
+import errors from '../errors';
 import request from '../helpers/request';
 
 function byIP(ip) {

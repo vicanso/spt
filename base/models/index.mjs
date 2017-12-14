@@ -1,5 +1,11 @@
-import setting from './setting';
+import _ from 'lodash';
 
-export default {
+import setting from './setting';
+import mock from './mock';
+
+import customModels from '../../models';
+
+export default _.extend({
   setting,
-};
+  mock,
+}, customModels);

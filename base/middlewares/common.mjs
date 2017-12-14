@@ -5,7 +5,7 @@
 import _ from 'lodash';
 import url from 'url';
 
-import errors from '../helpers/errors';
+import errors from '../errors';
 import influx from '../helpers/influx';
 import * as utils from '../helpers/utils';
 

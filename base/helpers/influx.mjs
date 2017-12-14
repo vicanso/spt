@@ -8,6 +8,7 @@ import debug from './debug';
 import {
   getParam,
 } from './utils';
+import * as config from '../config';
 
 let client = null;
 const maxQueueLength = 100;
@@ -50,7 +51,7 @@ function init(url) {
     // 全局增加server field
     if (type === 'write') {
       // eslint-disable-next-line
-      data.fields.server = configs.server;
+      data.fields.server = config.server;
     }
   });
 

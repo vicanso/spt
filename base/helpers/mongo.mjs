@@ -7,6 +7,7 @@ import baseModels from '../models';
 import customModels from '../../models';
 import savePlugin from '../plugins/mongo-save';
 import updatePlugin from '../plugins/mongo-update';
+import statsPlugin from '../plugins/mongo-stats';
 
 const {
   Schema,
@@ -24,7 +25,7 @@ function initModels(conn) {
   _.forEach(models, (model, key) => {
     const name = model.name || (key.charAt(0).toUpperCase() + key.substring(1));
     const schema = new Schema(model.schema, model.options);
-    // statsPlugin(schema, name);
+    statsPlugin(schema, name);
     updatePlugin(schema);
     savePlugin(schema);
     if (model.indexes) {

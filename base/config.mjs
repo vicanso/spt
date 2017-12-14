@@ -1,3 +1,6 @@
+import path from 'path';
+import shortid from 'shortid';
+
 import pkg from '../package';
 
 export const port = Number.parseInt(process.env.PORT, 10) || 5018;
@@ -16,6 +19,8 @@ export const trackCookie = 'jt';
 
 export const appUrlPrefix = '/api';
 
+export const server = shortid();
+
 // logger setting "console", "udp://127.0.0.1:5001"
 export const logger = process.env.LOG;
 
@@ -24,3 +29,18 @@ export const mongoUri = process.env.MONGO || 'mongodb://127.0.0.1/spt';
 
 // redis connection uri
 export const redisUri = process.env.REDIS || 'redis://127.0.0.1/';
+
+export const appPath = path.dirname(process.argv[1]);
+
+// cookie name
+export const session = {
+  key: pkg.name,
+  maxAge: 1 * 24 * 3600 * 1000,
+};
+
+// http connection limit options
+export const connectLimitOptions = {
+  mid: 100,
+  high: 500,
+  interval: 5000,
+};
