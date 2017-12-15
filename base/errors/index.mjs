@@ -3,14 +3,15 @@ import createError from 'http-errors';
 import als from 'async-local-storage';
 
 import commonErrors from './common';
-import customErrors from '../../errors';
+import userErrors from './user';
 import {
   app,
 } from '../config';
 
-const errors = _.extend({
+const errors = {
   common: commonErrors,
-}, customErrors);
+  user: userErrors,
+};
 
 // 根据key生成自定义error
 function get(key) {

@@ -3,8 +3,7 @@ import bluebird from 'bluebird';
 import mongoose from 'mongoose';
 
 import * as config from '../config';
-import baseModels from '../models';
-import customModels from '../../models';
+import models from '../models';
 import savePlugin from '../plugins/mongo-save';
 import updatePlugin from '../plugins/mongo-update';
 import statsPlugin from '../plugins/mongo-stats';
@@ -21,7 +20,6 @@ mongoose.Promise = bluebird;
  * @param  {MongooseClient} conn   mongoose实例化的client
  */
 function initModels(conn) {
-  const models = _.extend({}, baseModels, customModels);
   _.forEach(models, (model, key) => {
     const name = model.name || (key.charAt(0).toUpperCase() + key.substring(1));
     const schema = new Schema(model.schema, model.options);

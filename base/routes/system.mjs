@@ -4,4 +4,5 @@ export default [
   ['PUT', '/sys/resume', 'm.admin & c.system.resume'],
   ['GET', '/sys/status', 'm.noQuery & c.system.status'],
   ['GET', '/sys/stats', 'm.noQuery & c.system.stats'],
+  ['GET', '/sys/apis', 'm.noQuery & c.system.apis'],
 ];

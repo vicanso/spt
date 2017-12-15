@@ -7,6 +7,7 @@ import * as settingService from './base/services/setting';
 import influx from './base/helpers/influx';
 import dns from './base/helpers/dns';
 import createServer from './base/helpers/server';
+import './base/schedules';
 
 
 function mongodbReady() {
@@ -36,15 +37,3 @@ Promise.all([
 }).catch((err) => {
   console.error(`the application isn't ready, ${err.message}`);
 });
-
-// import * as errors from './base/errors';
-// import debug from './base/helpers/debug';
-// import * as globals from './base/helpers/globals';
-
-// import setttingService from './base/services/setting';
-
-// console.dir(errors.get('common.tokenInvalid'));
-// debug('ABCD');
-// console.dir(globals.getConcurrency());
-// console.dir(setttingService);
-

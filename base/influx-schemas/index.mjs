@@ -154,4 +154,19 @@ export default {
       ip: 's',
     },
   },
+  userLogin: {
+    fields: {
+      account: 's',
+      ip: 's',
+    },
+    tags: {
+      country: '*',
+      region: '*',
+      city: '*',
+      isp: '*',
+    },
+    options: {
+      stripUnknown: true,
+    },
+  },
 };

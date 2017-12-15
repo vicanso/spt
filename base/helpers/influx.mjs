@@ -2,8 +2,7 @@ import _ from 'lodash';
 import Influx from 'influxdb-nodejs';
 import stringify from 'simple-stringify';
 
-import baseSchemas from '../influx-schemas';
-import customSchemas from '../../influx-schemas';
+import schemas from '../influx-schemas';
 import debug from './debug';
 import {
   getParam,
@@ -28,7 +27,6 @@ function flush() {
 
 function init(url) {
   client = new Influx(url);
-  const schemas = _.extend({}, baseSchemas, customSchemas);
   const debounceFlush = _.debounce(flush, 30 * 1000);
   Object.keys(schemas).forEach((measurement) => {
     const {
@@ -51,7 +49,7 @@ function init(url) {
     // 全局增加server field
     if (type === 'write') {
       // eslint-disable-next-line
-      data.fields.server = config.server;
+      data.fields.ins = config.ins;
     }
   });
 

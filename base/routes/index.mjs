@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
 import sys from './system';
-import custom from '../../routes';
+import i18n from './i18n';
 
 export default _.flatten([
   sys,
-  custom,
+  i18n,
 ]);

@@ -19,7 +19,7 @@ export const trackCookie = 'jt';
 
 export const appUrlPrefix = '/api';
 
-export const server = shortid();
+export const ins = shortid();
 
 // logger setting "console", "udp://127.0.0.1:5001"
 export const logger = process.env.LOG;
