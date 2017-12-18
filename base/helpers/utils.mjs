@@ -65,10 +65,10 @@ export function isNoCache(ctx) {
     method,
   } = ctx;
   if (method !== 'GET' && method !== 'HEAD') {
-    return false;
+    return true;
   }
-  if (ctx.get('Cache-Control') !== 'no-cache' && ctx.query['cache-control'] !== 'no-cache') {
-    return false;
+  if (ctx.get('Cache-Control') === 'no-cache' || ctx.query['cache-control'] === 'no-cache') {
+    return true;
   }
-  return true;
+  return false;
 }

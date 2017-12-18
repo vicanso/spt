@@ -35,6 +35,7 @@ addToRouter('c', controllers);
 addToRouter('m.noQuery', middlewares.common.noQuery());
 addToRouter('m.noCache', middlewares.common.noCache());
 addToRouter('m.session', middlewares.session.writable());
+addToRouter('m.anonymous', middlewares.session.anonymous());
 addToRouter('m.login', middlewares.session.login());
 addToRouter('m.admin', middlewares.session.admin());
 addToRouter('m.su', middlewares.session.su());

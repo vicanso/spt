@@ -93,6 +93,16 @@ export const login = () => (ctx, next) => normal(ctx, () => {
   return next();
 });
 
+/**
+ * 判断客户是非登录状态
+ */
+export const anonymous = () => (ctx, next) => normal(ctx, () => {
+  if (_.get(ctx, 'session.user.account')) {
+    throw errors.get('user.hasLogined');
+  }
+  return next();
+});
+
 function roleValidate(roles) {
   return () => (ctx, next) => normal(ctx, () => {
     if (!_.get(ctx, 'session.user.account')) {

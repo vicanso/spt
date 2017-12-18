@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 
 const {
   String,
-  Number,
 } = mongoose.Schema.Types;
 
 export default {
@@ -25,26 +24,10 @@ export default {
       required: true,
       unique: true,
     },
-    // 最近登录时间
-    lastLoginedAt: {
-      type: String,
-      required: true,
-      default: () => (new Date()).toISOString(),
-    },
     // 权限 su admin等
     roles: [
       String,
     ],
-    // 登录次数
-    loginCount: {
-      type: Number,
-      required: true,
-    },
-    // ip地址
-    ip: {
-      type: String,
-      required: true,
-    },
     createdAt: {
       type: String,
       default: () => (new Date()).toISOString(),
