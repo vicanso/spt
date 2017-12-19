@@ -1,4 +1,6 @@
 export default [
+  ['GET', '/users/me', 'm.session & c.user.me'],
+  ['PATCH', '/users/me', 'm.session & c.user.refresh'],
   [
     'POST',
     '/users/register',

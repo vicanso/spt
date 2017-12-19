@@ -12,22 +12,22 @@ import {
 /**
  * @swagger
  * parameters:
- *  account:
+ *  user.account:
  *    name: account
  *    description: 用户账户，Joi.string().trim().min(4).max(32)
  *    type: string
  *    in: formData
- *  password:
+ *  user.password:
  *    name: password
  *    description: 用户密码，Joi.string().trim().max(256)
  *    type: string
  *    in: formData
- *  email:
+ *  user.email:
  *    name: email
  *    description: 用户邮箱，Joi.string().trim().email().max(64)
  *    type: string
  *    in: formData
- *  roles:
+ *  user.roles:
  *    name: roles
  *    description: 用户角色权限，Joi.array().items(Joi.string().valid(['admin', 'tester']))
  *    type: array
@@ -90,9 +90,9 @@ function pickUserInfo(userInfos) {
  *    consumes:
  *      - multipart/form-data
  *    parameters:
- *      - $ref: '#/parameters/account'
- *      - $ref: '#/parameters/password'
- *      - $ref: '#/parameters/email'
+ *      - $ref: '#/parameters/user.account'
+ *      - $ref: '#/parameters/user.password'
+ *      - $ref: '#/parameters/user.email'
  *    responses:
  *      201:
  *        description: 注册成功
@@ -166,8 +166,8 @@ export async function logout(ctx) {
  *    tags:
  *      - user
  *    parameters:
- *      - $ref: '#/parameters/account'
- *      - $ref: '#/parameters/password'
+ *      - $ref: '#/parameters/user.account'
+ *      - $ref: '#/parameters/user.password'
  *    responses:
  *      200:
  *        description: 登录成功，返回用户信息
@@ -203,7 +203,6 @@ export async function login(ctx) {
     password: defaultSchema.password.required(),
   });
   const failCount = await getLoginFailCount(account);
-  console.dir(failCount);
   if (failCount > 5) {
     throw errors.get('user.loginFailExceededLimit');
   }
@@ -226,4 +225,44 @@ export async function login(ctx) {
     ip: ctx.ip,
     track: ctx.cookies.get(config.trackCookie),
   });
+}
+
+/**
+ * @swagger
+ * /users/me:
+ *  get:
+ *    description: 获取用户信息。中间件：m.session
+ *    summary: 获取用户信息
+ *    tags:
+ *      - user
+ *    responses:
+ *      200:
+ *        description: 获取信息成功
+ *        schema:
+ *          type: object
+ *          $ref: '#/definitions/UserInfo'
+ *  patch:
+ *    description: 刷新用户session，避免太久没有对session更新导致退出。中间件：m.session
+ *    summary: 刷新用户session
+ *    tags:
+ *      - user
+ *    responses:
+ *      204:
+ *        description: 刷新session成功
+ */
+export function me(ctx) {
+  ctx.body = pickUserInfo(ctx.session.user || {});
+  const {
+    trackCookie,
+  } = config;
+  if (!ctx.cookies.get(trackCookie)) {
+    ctx.cookies.set(trackCookie, shortid(), {
+      maxAge: 365 * 24 * 3600 * 1000,
+      signed: true,
+    });
+  }
+}
+export function refresh(ctx) {
+  ctx.session.updatedAt = new Date().toISOString();
+  ctx.body = null;
 }
