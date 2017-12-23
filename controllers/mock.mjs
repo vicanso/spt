@@ -19,18 +19,22 @@ import mockService from '../services/mock';
  *  mock.status:
  *    name: status
  *    description: 响应的状态码
+ *    type: integer
  *    in: formData
  *  mock.response:
  *    name: response
  *    description: 响应的数据
+ *    type: object
  *    in: formData
  *  mock.description:
  *    name: description
  *    description: 该配置描述
+ *    type: string
  *    in: formData
  *  mock.disabled:
  *    name: disabled
  *    description: 是否禁用
+ *    type: boolean
  *    in: formData
  */
 const defaultSchema = {
@@ -47,33 +51,33 @@ const defaultSchema = {
  * @swagger
  * definitions:
  *  Mock:
- *   required:
- *    - url
- *  properties:
- *    account:
- *      description: 账号
- *      type: string
- *    url:
- *      description: url
- *      type: string
- *    status:
- *      description: 响应状态码
- *      type: integer
- *    response:
- *      description: 响应数据
- *      type: object
- *    description:
- *      description: 该mock描述
- *      type: string
- *    createdAt:
- *      description: 创建时间
- *      type: string
- *    creator:
- *      description: 创建者
- *      type: string
- *    disabled:
- *      description: 是否禁用
- *      type: boolean
+ *    required:
+ *      - url
+ *    properties:
+ *      account:
+ *        description: 账号
+ *        type: string
+ *      url:
+ *        description: url
+ *        type: string
+ *      status:
+ *        description: 响应状态码
+ *        type: integer
+ *      response:
+ *        description: 响应数据
+ *        type: object
+ *      description:
+ *        description: 该mock描述
+ *        type: string
+ *      createdAt:
+ *        description: 创建时间
+ *        type: string
+ *      creator:
+ *        description: 创建者
+ *        type: string
+ *      disabled:
+ *        description: 是否禁用
+ *        type: boolean
  */
 
 
@@ -144,6 +148,13 @@ export async function list(ctx) {
  *    summary: 获取该Mock配置
  *    tags:
  *      - mock
+ *    parammeters:
+ *      - $ref: '#/parameters/mock.account'
+ *      - $ref: '#/parameters/mock.url'
+ *      - $ref: '#/parameters/mock.status'
+ *      - $ref: '#/parameters/mock.response'
+ *      - $ref: '#/parameters/mock.description'
+ *      - $ref: '#/parameters/mock.disabled'
  *    responses:
  *      200:
  *        description: 返回该Mock配置
@@ -156,4 +167,26 @@ export async function get(ctx) {
   const doc = await mockService.findById(id);
   ctx.setCache('5s');
   ctx.body = doc;
+}
+
+
+/**
+ * @swagger
+ * /mocks/:id:
+ *  patch:
+ *    description: 更新Mock配置。中间件：m.admin
+ *    summary: 更新Mock配置
+ *    tags:
+ *      - mock
+ *    consumes:
+ *      - multipart/form-data
+ *    responses:
+ *      204:
+ *        description: 更新成功
+ */
+export async function update(ctx) {
+  const data = Joi.validate(ctx.request.body, defaultSchema);
+  const id = Joi.attempt(ctx.params.id, Joi.objectId());
+  await mockService.findByIdAndUpdate(id, data);
+  ctx.body = null;
 }

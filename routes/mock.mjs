@@ -10,13 +10,13 @@ export default [
   ],
   ['GET', '/mocks', 'm.noQuery & c.mock.list'],
   ['GET', '/mocks/:id', 'm.noQuery & c.mock.get'],
-  // [
-  //   'PATCH',
-  //   '/mocks/:id',
-  //   [
-  //     'm.admin',
-  //     'm.tracker("updateMock")',
-  //     'c.mock.update',
-  //   ],
-  // ],
+  [
+    'PATCH',
+    '/mocks/:id',
+    [
+      'm.admin',
+      'm.tracker("updateMock")',
+      'c.mock.update',
+    ],
+  ],
 ];

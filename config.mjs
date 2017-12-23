@@ -1,7 +1,7 @@
 import path from 'path';
 import shortid from 'shortid';
 
-import pkg from '../package';
+import pkg from './package';
 
 export const port = Number.parseInt(process.env.PORT, 10) || 5018;
 
