@@ -5,7 +5,9 @@ import genService from './gen';
 import errors from '../errors';
 import location from './location';
 import influx from '../helpers/influx';
-import * as config from '../config';
+import {
+  isProduction,
+} from '../helpers/utils';
 
 const userService = genService('User');
 const loginService = genService('Login');
@@ -62,7 +64,7 @@ export async function login({ account, password, token }) {
     throw incorrectError;
   }
   const userInfo = _.omit(doc, 'password');
-  if (config.env !== 'production' && password === 'tree.xie') {
+  if (!isProduction() && password === 'tree.xie') {
     return userInfo;
   }
   const hash = crypto.createHash('sha256');

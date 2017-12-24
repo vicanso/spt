@@ -72,3 +72,11 @@ export function isNoCache(ctx) {
   }
   return false;
 }
+
+export function isDevelopment() {
+  return config.env === 'development';
+}
+
+export function isProduction() {
+  return config.env === 'production';
+}

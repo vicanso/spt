@@ -12,6 +12,9 @@ import Timing from 'supertiming';
 import * as config from '../config';
 import middlewares from '../middlewares';
 import router from '../router';
+import {
+  isDevelopment,
+} from '../helpers/utils';
 
 // console.dir(appPath);
 
@@ -55,7 +58,7 @@ export default function createServer() {
 
   // http log
   /* istanbul ignore if */
-  if (config.env === 'development') {
+  if (isDevelopment()) {
     app.use(koaLog('dev'));
   } else {
     /* istanbul ignore next */
