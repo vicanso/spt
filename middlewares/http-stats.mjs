@@ -6,9 +6,6 @@ import _ from 'lodash';
 import httpStats from 'koa-http-stats';
 
 import influx from '../helpers/influx';
-import {
-  initAlsSetting,
-} from '../helpers/utils';
 
 /**
  * 对HTTP的响应时间、状态码等生成统计指标，返回的统计指标如下：
@@ -32,7 +29,6 @@ import {
  * @see {@link https://github.com/vicanso/koa-http-stats|GitHub}
  */
 export default options => httpStats(options, (performance, statsData, ctx) => {
-  initAlsSetting(ctx);
   const tagKeys = 'status spdy size busy'.split(' ');
   const fields = _.omit(statsData, tagKeys);
   fields.ip = ctx.ip;

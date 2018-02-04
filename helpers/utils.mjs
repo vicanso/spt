@@ -1,6 +1,5 @@
 
 import request from 'superagent';
-import als from 'async-local-storage';
 
 import * as config from '../config';
 
@@ -42,19 +41,6 @@ export function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-/**
- * 设置als的相关属性
- *
- * @param {any} ctx
- */
-export function initAlsSetting(ctx) {
-  if (!als.get('id')) {
-    als.set('id', ctx.state.id);
-  }
-  if (!als.get('account') && ctx.state.account) {
-    als.set('account', ctx.state.account);
-  }
-}
 
 /**
  * 该请求是否不可以缓存

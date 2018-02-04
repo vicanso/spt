@@ -36,9 +36,9 @@ export default function createServer() {
     ctx.state.lang = lang;
     ctx.set('X-Response-Id', id);
     // als设置的参数
-    als.set('timing', timing);
-    als.set('id', id);
-    als.set('lang', lang);
+    als.set('timing', timing, true);
+    als.set('id', id, true);
+    als.set('lang', lang, true);
     return next();
   });
 

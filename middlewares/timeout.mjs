@@ -1,9 +1,5 @@
 import _ from 'lodash';
 
-import {
-  initAlsSetting,
-} from '../helpers/utils';
-
 
 /**
  * timeout中间件，可以配置超时时间与pass函数
@@ -12,7 +8,6 @@ import {
  * @return {Function} 返回中间件处理函数
  */
 export default (options = {}) => function timeout(ctx, next) {
-  initAlsSetting(ctx);
   const pass = options.pass || _.noop;
   const ms = options.timeout || 5000;
   if (pass(ctx)) {

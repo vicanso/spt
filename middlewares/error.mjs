@@ -10,9 +10,6 @@ import {
   env,
 } from '../config';
 import influx from '../helpers/influx';
-import {
-  initAlsSetting,
-} from '../helpers/utils';
 
 /**
  * HTTP请求出错中间件处理，根据出错的Error对象，记录出错的url,code,userToken,
@@ -21,7 +18,6 @@ import {
  * @return {Function} 返回中间件处理函数
  */
 export default () => (ctx, next) => next().catch((err) => {
-  initAlsSetting(ctx);
   const urlInfo = url.parse(ctx.url);
   ctx.set('Cache-Control', 'no-cache, max-age=0');
   const error = _.isError(err) ? err : new Error(err);

@@ -6,12 +6,8 @@
 import _ from 'lodash';
 import stringify from 'simple-stringify';
 
-import {
-  initAlsSetting,
-} from '../helpers/utils';
 
 export default (level = 2) => async (ctx, next) => {
-  initAlsSetting(ctx);
   await next();
   if (ctx.state.logResponse && ctx.body && _.isObject(ctx.body)) {
     const logLevel = _.get(ctx, 'state.logResponseLevel', level);

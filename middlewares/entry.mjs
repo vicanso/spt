@@ -8,9 +8,6 @@ import {
   getConnectingCount,
   setConnectingCount,
 } from '../helpers/globals';
-import {
-  initAlsSetting,
-} from '../helpers/utils';
 
 /**
  * HTTP请求入口的中间件处理，包括：
@@ -24,7 +21,6 @@ import {
  * @return {Function} 返回中间件处理函数
  */
 export default (appInfo, appUrlPrefix) => async (ctx, next) => {
-  initAlsSetting(ctx);
   const {
     timing,
   } = ctx.state;

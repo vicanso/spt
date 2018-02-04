@@ -112,7 +112,8 @@ export function resume(ctx) {
  */
 export async function status(ctx) {
   const version = await getVersion();
-  const uptime = moment(Date.now() - (Math.ceil(process.uptime()) * 1000));
+  const sceonds = Number.parseInt(process.uptime(), 10);
+  const uptime = moment(Date.now() - (sceonds * 1000));
   ctx.setCache('10s');
   ctx.body = _.extend({
     ins: config.ins,
