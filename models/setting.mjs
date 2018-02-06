@@ -12,10 +12,6 @@ export default {
       type: String,
       unique: true,
     },
-    createdAt: {
-      type: String,
-      default: () => (new Date()).toISOString(),
-    },
     // 该配置是否禁用状态
     disabled: {
       type: Boolean,
@@ -26,8 +22,6 @@ export default {
       type: String,
       required: true,
     },
-    // mongodb-update 的plugin会自动增加该字段
-    updatedAt: String,
     description: String,
   },
 };

@@ -19,16 +19,10 @@ export default {
     en: String,
     // 中文
     zh: String,
-    createdAt: {
-      type: String,
-      default: () => (new Date()).toISOString(),
-    },
     creator: {
       type: String,
       required: true,
     },
-    // mongodb-update 的plugin会自动增加该字段
-    updatedAt: String,
   },
   indexes: [
     {

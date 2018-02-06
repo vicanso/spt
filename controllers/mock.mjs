@@ -37,14 +37,14 @@ import mockService from '../services/mock';
  *    type: boolean
  *    in: formData
  */
-const defaultSchema = {
+const getDefaultSchema = () => ({
   account: Joi.string().trim().max(100),
   url: Joi.string().trim().max(200),
   status: Joi.number().integer(),
   response: Joi.object(),
   description: Joi.string(),
   disabled: Joi.boolean(),
-};
+});
 
 
 /**
@@ -106,7 +106,7 @@ const defaultSchema = {
  *          $ref: '#/definitions/Mock'
  */
 export async function add(ctx) {
-  const data = Joi.validate(ctx.request.body, defaultSchema);
+  const data = Joi.validate(ctx.request.body, getDefaultSchema());
   data.creator = ctx.session.user.account;
   const doc = await mockService.add(data);
   ctx.status = 201;
@@ -185,7 +185,7 @@ export async function get(ctx) {
  *        description: 更新成功
  */
 export async function update(ctx) {
-  const data = Joi.validate(ctx.request.body, defaultSchema);
+  const data = Joi.validate(ctx.request.body, getDefaultSchema());
   const id = Joi.attempt(ctx.params.id, Joi.objectId());
   await mockService.findByIdAndUpdate(id, data);
   ctx.body = null;

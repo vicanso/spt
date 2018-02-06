@@ -28,11 +28,5 @@ export default {
     roles: [
       String,
     ],
-    createdAt: {
-      type: String,
-      default: () => (new Date()).toISOString(),
-    },
-    // mongodb-update 的plugin会自动增加该字段
-    updatedAt: String,
   },
 };

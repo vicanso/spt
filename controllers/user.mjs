@@ -35,12 +35,12 @@ import {
  *      type: string
  *    in: formData
  */
-const defaultSchema = {
+const getDefaultSchema = () => ({
   account: Joi.string().trim().min(4).max(32),
   password: Joi.string().trim().max(256),
   email: Joi.string().trim().email().max(64),
   roles: Joi.array().items(Joi.string().valid(['admin', 'tester'])),
-};
+});
 
 
 /**
@@ -102,11 +102,12 @@ function pickUserInfo(userInfos) {
  *
  */
 export async function register(ctx) {
-  const data = Joi.validate(ctx.request.body, {
-    account: defaultSchema.account.required(),
-    password: defaultSchema.password.required(),
-    email: defaultSchema.email.required(),
-  });
+  const schema = getDefaultSchema();
+  schema.account.required();
+  schema.password.required();
+  schema.email.required();
+
+  const data = Joi.validate(ctx.request.body, schema);
   const doc = await userService.register(data);
   const user = pickUserInfo(doc);
   ctx.session.user = user;
@@ -195,13 +196,13 @@ export async function login(ctx) {
   if (!token) {
     throw errors.get('user.tokenIsNull');
   }
+  const schema = getDefaultSchema();
+  schema.account.required();
+  schema.password.required();
   const {
     account,
     password,
-  } = Joi.validate(ctx.request.body, {
-    account: defaultSchema.account.required(),
-    password: defaultSchema.password.required(),
-  });
+  } = Joi.validate(ctx.request.body, schema);
   const failCount = await getLoginFailCount(account);
   if (failCount > 5) {
     throw errors.get('user.loginFailExceededLimit');

@@ -27,12 +27,12 @@ import settingService from '../services/setting';
  *      type: string
  *      in: formData
  */
-const defaultSchema = {
+const getDefaultSchema = () => ({
   name: Joi.string().trim().max(30),
   data: Joi.object(),
   disabled: Joi.boolean(),
   description: Joi.string().trim(),
-};
+});
 
 /**
  * @swagger
@@ -84,9 +84,9 @@ const defaultSchema = {
  *          $ref: '#/definitions/Setting'
  */
 export async function add(ctx) {
-  const data = Joi.validate(ctx.request.body, _.defaults({
-    name: defaultSchema.name.required(),
-  }, defaultSchema));
+  const schema = getDefaultSchema();
+  schema.name.required();
+  const data = Joi.validate(ctx.request.body, schema);
   data.creator = ctx.session.user.account;
   const doc = await settingService.add(data);
   ctx.status = 201;
@@ -161,7 +161,7 @@ export async function get(ctx) {
  */
 export async function update(ctx) {
   const id = Joi.attempt(ctx.params.id, Joi.objectId());
-  const data = Joi.validate(ctx.request.body, defaultSchema);
+  const data = Joi.validate(ctx.request.body, getDefaultSchema());
   if (!_.isEmpty(data)) {
     await settingService.findByIdAndUpdate(id, data);
   }

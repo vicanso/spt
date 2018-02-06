@@ -31,14 +31,15 @@ export default function stats(schema, model) {
     const result = {
       op: this.op,
       model,
-      options: stringify.json(this.options),
+      options: stringify.json(this.options).replace(/"/g, '\\"'),
       use,
       size,
     };
     _.forEach(['_conditions', '_fields', '_update'], (key) => {
       const value = _.get(this, key);
       if (!_.isEmpty(value)) {
-        result[key.substring(1)] = stringify.json(value, 2);
+        result[key.substring(1)] = stringify.json(value, 2)
+          .replace(/"/g, '\\"');
       }
     });
     writeStats(result);

@@ -63,7 +63,7 @@ const normal = (ctx, next) => {
   return sessionMiddleware(ctx, () => {
     const use = Date.now() - startedAt;
     const account = _.get(ctx, 'session.user.account', 'unknown');
-    als.set('account', account);
+    als.set('account', account, true);
     ctx.state.account = account;
     influx.write('session', {
       account,

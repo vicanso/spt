@@ -36,6 +36,8 @@ export default options => httpStats(options, (performance, statsData, ctx) => {
   const requestedAt = Number.parseInt(ctx.get('X-Requested-At') || 0, 10);
   if (requestedAt) {
     fields.request = Date.now() - requestedAt - statsData.use;
+  } else {
+    fields.request = 0;
   }
   const tags = _.pick(statsData, tagKeys);
   tags.type = tags.status;

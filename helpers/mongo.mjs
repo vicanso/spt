@@ -4,8 +4,7 @@ import mongoose from 'mongoose';
 
 import * as config from '../config';
 import models from '../models';
-import savePlugin from '../plugins/mongo-save';
-import updatePlugin from '../plugins/mongo-update';
+// import updatePlugin from '../plugins/mongo-update';
 import statsPlugin from '../plugins/mongo-stats';
 
 const {
@@ -22,10 +21,11 @@ mongoose.Promise = bluebird;
 function initModels(conn) {
   _.forEach(models, (model, key) => {
     const name = model.name || (key.charAt(0).toUpperCase() + key.substring(1));
-    const schema = new Schema(model.schema, model.options);
+    const schema = new Schema(model.schema, _.extend({
+      timestamps: true,
+    }, model.options));
     statsPlugin(schema, name);
-    updatePlugin(schema);
-    savePlugin(schema);
+    // updatePlugin(schema);
     if (model.indexes) {
       _.forEach(model.indexes, (indexConfig) => {
         const optionKeys = ['unique', 'expireAfterSeconds'];
@@ -43,23 +43,14 @@ function initModels(conn) {
 /**
  * 根据mongodb连接串初始化Mongoose Connection
  * @param  {String} uri     mongodb连接串：mongodb://user:pass@localhost:port/database
- * @param  {Object} options mongoose中createConnection的options
  * @return {Connection}  Mongoose Connection
  */
-function initClient(uri, options) {
+function initClient(uri) {
   /* istanbul ignore if */
   if (!uri) {
     return null;
   }
-  const opts = _.extend({
-    db: {
-      native_parser: true,
-    },
-    server: {
-      poolSize: 5,
-    },
-  }, options);
-  const client = mongoose.createConnection(uri, opts);
+  const client = mongoose.createConnection(uri);
   const maskUri = uri.replace(/\/\/\S+:\S+@/, '//***:***@');
   client.on('connected', () => {
     console.info(`${maskUri} connected`);

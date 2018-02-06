@@ -31,12 +31,6 @@ export default {
     city: String,
     // 网络运营商
     isp: String,
-    createdAt: {
-      type: String,
-      default: () => (new Date()).toISOString(),
-    },
-    // mongodb-update 的plugin会自动增加该字段
-    updatedAt: String,
   },
   indexes: [
     {

@@ -16,6 +16,7 @@ if (config.logger) {
       // TODO 发送email警报
     });
   });
+  logger.add(config.logger);
 } else {
   console.emerg = console.error;
   console.alert = console.error;

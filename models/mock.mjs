@@ -20,10 +20,6 @@ export default {
     },
     response: Mixed,
     description: String,
-    createdAt: {
-      type: String,
-      default: () => (new Date()).toISOString(),
-    },
     creator: {
       type: String,
       required: true,
@@ -32,8 +28,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    // mongodb-update 的plugin会自动增加该字段
-    updatedAt: String,
   },
   indexes: [
     {
