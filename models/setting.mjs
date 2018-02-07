@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const {
-  String,
   Mixed,
 } = mongoose.Schema.Types;
 

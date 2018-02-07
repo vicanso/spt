@@ -1,9 +1,3 @@
-import mongoose from 'mongoose';
-
-const {
-  String,
-} = mongoose.Schema.Types;
-
 export default {
   // model的schema定义
   schema: {

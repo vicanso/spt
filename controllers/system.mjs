@@ -10,6 +10,7 @@ import _ from 'lodash';
 
 import * as config from '../config';
 import * as globals from '../helpers/globals';
+import * as mongo from '../helpers/mongo';
 
 
 const readFile = util.promisify(fs.readFile);
@@ -207,4 +208,26 @@ export async function apis(ctx) {
   const buf = await readFile(file);
   ctx.setCache('5m');
   ctx.body = JSON.parse(buf);
+}
+
+
+/**
+ * @swagger
+ * /sys/:collection/ensure-indexes:
+ *  put:
+ *    description: 对mongodb中的collection确保索引创建。中间件：m.admin
+ *    summary: 确保索引创建
+ *    tags:
+ *      - system
+ *    responses:
+ *      204:
+ *        description: 执行成功时返回
+ */
+export async function ensureIndexes(ctx) {
+  const {
+    collection,
+  } = ctx.params;
+  const Model = mongo.get(collection);
+  await Model.ensureIndexes();
+  ctx.body = null;
 }

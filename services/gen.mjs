@@ -20,7 +20,7 @@ function add(collection, data) {
  */
 function findOneAndUpdate(collection, ...args) {
   const Model = mongo.get(collection);
-  return Model.findOneAndUpdate(...args).lean();
+  return Model.findOneAndUpdate(...args);
 }
 
 /**
@@ -31,7 +31,7 @@ function findOneAndUpdate(collection, ...args) {
  */
 function find(collection, ...args) {
   const Model = mongo.get(collection);
-  return Model.find(...args).lean();
+  return Model.find(...args);
 }
 
 /**
@@ -55,7 +55,7 @@ function findByIdAndUpdate(collection, id, data) {
  */
 function findOne(collection, ...args) {
   const Model = mongo.get(collection);
-  return Model.findOne(...args).lean();
+  return Model.findOne(...args);
 }
 
 /**

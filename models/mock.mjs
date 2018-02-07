@@ -1,10 +1,7 @@
 import mongoose from 'mongoose';
 
 const {
-  String,
-  Number,
   Mixed,
-  Boolean,
 } = mongoose.Schema.Types;
 
 export default {

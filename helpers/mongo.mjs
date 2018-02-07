@@ -4,8 +4,10 @@ import mongoose from 'mongoose';
 
 import * as config from '../config';
 import models from '../models';
-// import updatePlugin from '../plugins/mongo-update';
 import statsPlugin from '../plugins/mongo-stats';
+import {
+  isDevelopment,
+} from '../helpers/utils';
 
 const {
   Schema,
@@ -19,13 +21,20 @@ mongoose.Promise = bluebird;
  * @param  {MongooseClient} conn   mongoose实例化的client
  */
 function initModels(conn) {
+  const autoIndex = isDevelopment();
   _.forEach(models, (model, key) => {
     const name = model.name || (key.charAt(0).toUpperCase() + key.substring(1));
     const schema = new Schema(model.schema, _.extend({
       timestamps: true,
+      autoIndex,
     }, model.options));
+    schema.set('toObject', {
+      getters: true,
+    });
+    schema.set('toJSON', {
+      getters: true,
+    });
     statsPlugin(schema, name);
-    // updatePlugin(schema);
     if (model.indexes) {
       _.forEach(model.indexes, (indexConfig) => {
         const optionKeys = ['unique', 'expireAfterSeconds'];
