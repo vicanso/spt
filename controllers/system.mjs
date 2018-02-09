@@ -231,3 +231,25 @@ export async function ensureIndexes(ctx) {
   await Model.ensureIndexes();
   ctx.body = null;
 }
+
+
+/**
+ * @swagger
+ * /sys/:collection/indexes
+ *  get:
+ *    description: 获取该collection对应的索引
+ *    summary: 获取索引
+ *    tags:
+ *      - system
+ *    responses:
+ *      200:
+ *        description: 获取成功时返回
+ */
+export async function getIndexes(ctx) {
+  const {
+    collection,
+  } = ctx.params;
+  const Model = mongo.get(collection);
+  const data = await Model.collection.getIndexes();
+  ctx.body = data;
+}
