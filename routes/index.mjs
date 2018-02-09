@@ -7,11 +7,4 @@ import mock from './mock';
 import setting from './setting';
 import stats from './stats';
 
-export default _.flatten([
-  sys,
-  i18n,
-  user,
-  mock,
-  setting,
-  stats,
-]);
+export default _.flatten([sys, i18n, user, mock, setting, stats]);

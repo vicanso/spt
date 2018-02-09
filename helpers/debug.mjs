@@ -4,8 +4,6 @@
 
 import debug from 'debug';
 
-import {
-  app,
-} from '../config';
+import {app} from '../config';
 
 export default debug(app);

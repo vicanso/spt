@@ -4,7 +4,6 @@
 
 import client from '../helpers/redis';
 
-
 /**
  * 获取session信息
  *
@@ -46,7 +45,6 @@ export async function validateCaptcha(key, code, once) {
   }
   return true;
 }
-
 
 /**
  * 缓存重置密码的token与account

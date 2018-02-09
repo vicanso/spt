@@ -4,9 +4,7 @@ import genService from './gen';
 
 const settingService = genService('Setting');
 
-const {
-  find,
-} = settingService;
+const {find} = settingService;
 
 let applicationSettings = null;
 
@@ -25,7 +23,7 @@ export async function updateAppSettings() {
     disabled: false,
   });
   applicationSettings = {};
-  _.forEach(docs, (item) => {
+  _.forEach(docs, item => {
     applicationSettings[item.name] = item.data;
   });
 }

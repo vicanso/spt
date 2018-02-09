@@ -5,9 +5,7 @@ import genService from './gen';
 import errors from '../errors';
 import location from './location';
 import influx from '../helpers/influx';
-import {
-  isProduction,
-} from '../helpers/utils';
+import {isProduction} from '../helpers/utils';
 
 const userService = genService('User');
 const loginService = genService('Login');
@@ -20,10 +18,10 @@ async function exists(condition) {
 
 // 用户注册
 export async function register(data) {
-  if (await exists({ account: data.account })) {
+  if (await exists({account: data.account})) {
     throw errors.get('user.accountHasUsed');
   }
-  if (await exists({ email: data.email })) {
+  if (await exists({email: data.email})) {
     throw errors.get('user.emailHasUsed');
   }
   const userData = _.clone(data);
@@ -49,13 +47,15 @@ export async function addLoginRecord(data) {
     const doc = await loginService.add(data);
     return doc;
   } catch (err) {
-    console.error(`add login record fail, account:${data.account} err:${err.message}`);
+    console.error(
+      `add login record fail, account:${data.account} err:${err.message}`,
+    );
   }
   return null;
 }
 
 // 校验用户密码，获取用户信息
-export async function login({ account, password, token }) {
+export async function login({account, password, token}) {
   const incorrectError = errors.get('user.idPwdIncorrect');
   const doc = await userService.findOne({
     account,

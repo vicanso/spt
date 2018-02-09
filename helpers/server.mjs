@@ -12,11 +12,7 @@ import Timing from 'supertiming';
 import * as config from '../config';
 import middlewares from '../middlewares';
 import router from '../router';
-import {
-  isDevelopment,
-} from '../helpers/utils';
-
-// console.dir(appPath);
+import {isDevelopment} from '../helpers/utils';
 
 export default function createServer() {
   const app = new Koa();
@@ -46,13 +42,17 @@ export default function createServer() {
 
   app.use(middlewares.responseLogger(2));
 
-  app.use(middlewares.entry(`${config.version} ${config.app}`, config.appUrlPrefix));
+  app.use(
+    middlewares.entry(`${config.version} ${config.app}`, config.appUrlPrefix),
+  );
 
-  app.use(middlewares.timeout({
-    timeout: 3000,
-    // 如果query中设置了disableTimeout，则跳过timeout处理
-    pass: ctx => _.has(ctx.query, 'disableTimeout'),
-  }));
+  app.use(
+    middlewares.timeout({
+      timeout: 3000,
+      // 如果query中设置了disableTimeout，则跳过timeout处理
+      pass: ctx => _.has(ctx.query, 'disableTimeout'),
+    }),
+  );
 
   app.use(middlewares.ping('/ping'));
 
@@ -72,18 +72,22 @@ export default function createServer() {
 
   // http connection limit
   const limitOptions = config.connectLimitOptions;
-  app.use(middlewares.limit.connection(
-    _.omit(limitOptions, 'interval'),
-    limitOptions.interval,
-  ));
+  app.use(
+    middlewares.limit.connection(
+      _.omit(limitOptions, 'interval'),
+      limitOptions.interval,
+    ),
+  );
 
   app.use(methodoverride());
   app.use(bodyparser());
 
   // 对处理号的处理
-  app.use(restVersion({
-    override: true,
-  }));
+  app.use(
+    restVersion({
+      override: true,
+    }),
+  );
 
   app.use(middlewares.common.fresh());
   app.use(etag());
@@ -93,13 +97,13 @@ export default function createServer() {
 
   app.on('error', _.noop);
 
-  const {
-    port,
-  } = config;
-  const server = app.listen(port, (err) => {
+  const {port} = config;
+  const server = app.listen(port, err => {
     /* istanbul ignore if */
     if (err) {
-      console.error(`server listen on http://127.0.0.1:${port}/ fail, err:${err.message}`);
+      console.error(
+        `server listen on http://127.0.0.1:${port}/ fail, err:${err.message}`,
+      );
     } else {
       console.info(`server listen on http://127.0.0.1:${port}/`);
     }

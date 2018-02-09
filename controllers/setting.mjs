@@ -28,7 +28,9 @@ import settingService from '../services/setting';
  *      in: formData
  */
 const getDefaultSchema = () => ({
-  name: Joi.string().trim().max(30),
+  name: Joi.string()
+    .trim()
+    .max(30),
   data: Joi.object(),
   disabled: Joi.boolean(),
   description: Joi.string().trim(),
@@ -119,7 +121,6 @@ export async function list(ctx) {
   };
 }
 
-
 /**
  * @swagger
  * /settings/:id:
@@ -138,7 +139,6 @@ export async function get(ctx) {
   const doc = await settingService.findById(id);
   ctx.body = doc;
 }
-
 
 /**
  * @swagger

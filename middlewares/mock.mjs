@@ -7,12 +7,8 @@ import _ from 'lodash';
 import mockService from '../services/mock';
 
 import * as config from '../config';
-import {
-  getSession,
-} from '../services/cache';
-import {
-  isNoCache,
-} from '../helpers/utils';
+import {getSession} from '../services/cache';
+import {isNoCache} from '../helpers/utils';
 
 let isStartUpdate = false;
 let mockDict = {};
@@ -28,20 +24,16 @@ async function updateMock() {
     },
   });
   const result = {};
-  _.forEach(docs, (item) => {
-    const {
-      url,
-    } = item;
+  _.forEach(docs, item => {
+    const {url} = item;
     if (!result[url]) {
       result[url] = [];
     }
     result[url].push(_.pick(item, ['status', 'response', 'account']));
   });
   _.forEach(result, (items, url) => {
-    result[url] = _.sortBy(items, (item) => {
-      const {
-        account,
-      } = item;
+    result[url] = _.sortBy(items, item => {
+      const {account} = item;
       if (!account || account === '*') {
         return null;
       }
@@ -60,7 +52,7 @@ export default function getMockMiddleware() {
   }
   return async function mockMiddleware(ctx, next) {
     // eslint-disable-next-line
-    const urlInfo = ctx.req._parsedUrl
+    const urlInfo = ctx.req._parsedUrl;
     const mocks = mockDict[urlInfo.pathname];
     if (!mocks) {
       return next();
@@ -73,7 +65,7 @@ export default function getMockMiddleware() {
       mock = lastMock;
     }
     let hasMockAccount = false;
-    _.forEach(mocks, (item) => {
+    _.forEach(mocks, item => {
       if (item.account) {
         hasMockAccount = true;
       }

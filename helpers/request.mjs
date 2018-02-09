@@ -3,7 +3,6 @@ import _ from 'lodash';
 
 import httpStats from '../plugins/http-stats';
 
-
 let timeout = 5 * 1000;
 
 /**

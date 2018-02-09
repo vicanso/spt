@@ -9,7 +9,7 @@ import * as mongo from '../helpers/mongo';
  */
 function add(collection, data) {
   const Model = mongo.get(collection);
-  return (new Model(data).save()).then(doc => doc.toJSON());
+  return new Model(data).save().then(doc => doc.toJSON());
 }
 
 /**
@@ -42,9 +42,13 @@ function find(collection, ...args) {
  * @param {Object} data 要更新的数据
  */
 function findByIdAndUpdate(collection, id, data) {
-  return findOneAndUpdate(collection, {
-    _id: id,
-  }, data);
+  return findOneAndUpdate(
+    collection,
+    {
+      _id: id,
+    },
+    data,
+  );
 }
 
 /**

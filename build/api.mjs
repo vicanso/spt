@@ -14,10 +14,7 @@ const definition = {
 };
 const options = {
   swaggerDefinition: definition,
-  apis: [
-    '*/*.mjs',
-    '*/*/*.mjs',
-  ],
+  apis: ['*/*.mjs', '*/*/*.mjs'],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

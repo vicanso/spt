@@ -38,14 +38,17 @@ import mockService from '../services/mock';
  *    in: formData
  */
 const getDefaultSchema = () => ({
-  account: Joi.string().trim().max(100),
-  url: Joi.string().trim().max(200),
+  account: Joi.string()
+    .trim()
+    .max(100),
+  url: Joi.string()
+    .trim()
+    .max(200),
   status: Joi.number().integer(),
   response: Joi.object(),
   description: Joi.string(),
   disabled: Joi.boolean(),
 });
-
 
 /**
  * @swagger
@@ -79,7 +82,6 @@ const getDefaultSchema = () => ({
  *        description: 是否禁用
  *        type: boolean
  */
-
 
 /**
  * @swagger
@@ -168,7 +170,6 @@ export async function get(ctx) {
   ctx.setCache('5s');
   ctx.body = doc;
 }
-
 
 /**
  * @swagger

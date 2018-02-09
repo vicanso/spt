@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 
-const {
-  Mixed,
-} = mongoose.Schema.Types;
+const {Mixed} = mongoose.Schema.Types;
 
 export default {
   schema: {

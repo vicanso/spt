@@ -1,9 +1,6 @@
 import Joi from 'joi';
 
-import {
-  app,
-} from '../config';
-
+import {app} from '../config';
 
 /**
  * 增加校验数据出错抛出异常的处理，参数参考Joi.validate，如果校验出错，使用errors生成自定义出错，code为albi-99999。
@@ -36,11 +33,14 @@ function validateThrow(...args) {
   return result.value;
 }
 function attemptThrow(value, schema) {
-  const result = validateThrow({
-    value,
-  }, {
-    value: schema,
-  });
+  const result = validateThrow(
+    {
+      value,
+    },
+    {
+      value: schema,
+    },
+  );
   return result.value;
 }
 

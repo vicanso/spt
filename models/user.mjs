@@ -19,8 +19,6 @@ export default {
       unique: true,
     },
     // 权限 su admin等
-    roles: [
-      String,
-    ],
+    roles: [String],
   },
 };

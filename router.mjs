@@ -6,7 +6,6 @@ import middlewares from './middlewares';
 import routes from './routes';
 import controllers from './controllers';
 
-
 function getRouter(descList) {
   return router.parse(descList);
 }

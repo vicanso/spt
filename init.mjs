@@ -9,11 +9,11 @@ import './helpers/logger';
 global.Promise = bluebird;
 
 // set stringify mask
-stringify.isSecret = (key) => {
+stringify.isSecret = key => {
   const reg = /password/gi;
   return reg.test(key);
 };
-stringify.addFormat('_id', (v) => {
+stringify.addFormat('_id', v => {
   if (!v) {
     return '';
   }

@@ -5,10 +5,7 @@ import shortid from 'shortid';
 import errors from '../errors';
 import * as userService from '../services/user';
 import * as config from '../config';
-import {
-  getLoginFailCount,
-  incLoginFailCount,
-} from '../services/limiter';
+import {getLoginFailCount, incLoginFailCount} from '../services/limiter';
 /**
  * @swagger
  * parameters:
@@ -36,12 +33,19 @@ import {
  *    in: formData
  */
 const getDefaultSchema = () => ({
-  account: Joi.string().trim().min(4).max(32),
-  password: Joi.string().trim().max(256),
-  email: Joi.string().trim().email().max(64),
+  account: Joi.string()
+    .trim()
+    .min(4)
+    .max(32),
+  password: Joi.string()
+    .trim()
+    .max(256),
+  email: Joi.string()
+    .trim()
+    .email()
+    .max(64),
   roles: Joi.array().items(Joi.string().valid(['admin', 'tester'])),
 });
-
 
 /**
  * @swagger
@@ -73,10 +77,13 @@ function pickUserInfo(userInfos) {
   if (userInfos && userInfos.account) {
     anonymous = false;
   }
-  return _.extend({
-    anonymous,
-    date: new Date().toISOString(),
-  }, _.pick(userInfos, keys));
+  return _.extend(
+    {
+      anonymous,
+      date: new Date().toISOString(),
+    },
+    _.pick(userInfos, keys),
+  );
 }
 
 /**
@@ -177,9 +184,7 @@ export async function logout(ctx) {
  *          $ref: '#/definitions/UserInfo'
  */
 export function loginToken(ctx) {
-  const {
-    session,
-  } = ctx;
+  const {session} = ctx;
   const user = {
     token: shortid(),
   };
@@ -189,9 +194,7 @@ export function loginToken(ctx) {
   ctx.body = user;
 }
 export async function login(ctx) {
-  const {
-    session,
-  } = ctx;
+  const {session} = ctx;
   const token = _.get(session, 'user.token');
   if (!token) {
     throw errors.get('user.tokenIsNull');
@@ -199,10 +202,7 @@ export async function login(ctx) {
   const schema = getDefaultSchema();
   schema.account.required();
   schema.password.required();
-  const {
-    account,
-    password,
-  } = Joi.validate(ctx.request.body, schema);
+  const {account, password} = Joi.validate(ctx.request.body, schema);
   const failCount = await getLoginFailCount(account);
   if (failCount > 5) {
     throw errors.get('user.loginFailExceededLimit');
@@ -253,9 +253,7 @@ export async function login(ctx) {
  */
 export function me(ctx) {
   ctx.body = pickUserInfo(ctx.session.user || {});
-  const {
-    trackCookie,
-  } = config;
+  const {trackCookie} = config;
   if (!ctx.cookies.get(trackCookie)) {
     ctx.cookies.set(trackCookie, shortid(), {
       maxAge: 365 * 24 * 3600 * 1000,

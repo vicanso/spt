@@ -3,9 +3,7 @@
  */
 
 import errors from '../errors';
-import {
-  isRunning,
-} from '../helpers/globals';
+import {isRunning} from '../helpers/globals';
 
 /**
  * 根据应用状态对设置的ping请求做出响应，如果应用不是处于`running`状态，

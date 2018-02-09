@@ -5,15 +5,10 @@ import mongoose from 'mongoose';
 import * as config from '../config';
 import models from '../models';
 import statsPlugin from '../plugins/mongo-stats';
-import {
-  isDevelopment,
-} from '../helpers/utils';
+import {isDevelopment} from '../helpers/utils';
 
-const {
-  Schema,
-} = mongoose;
+const {Schema} = mongoose;
 mongoose.Promise = bluebird;
-
 
 /**
  * 初始化models，读取所有配置的model，初始化。
@@ -23,11 +18,17 @@ mongoose.Promise = bluebird;
 function initModels(conn) {
   const autoIndex = isDevelopment();
   _.forEach(models, (model, key) => {
-    const name = model.name || (key.charAt(0).toUpperCase() + key.substring(1));
-    const schema = new Schema(model.schema, _.extend({
-      timestamps: true,
-      autoIndex,
-    }, model.options));
+    const name = model.name || key.charAt(0).toUpperCase() + key.substring(1);
+    const schema = new Schema(
+      model.schema,
+      _.extend(
+        {
+          timestamps: true,
+          autoIndex,
+        },
+        model.options,
+      ),
+    );
     schema.set('toObject', {
       getters: true,
     });
@@ -36,11 +37,14 @@ function initModels(conn) {
     });
     statsPlugin(schema, name);
     if (model.indexes) {
-      _.forEach(model.indexes, (indexConfig) => {
+      _.forEach(model.indexes, indexConfig => {
         const optionKeys = ['unique', 'expireAfterSeconds'];
-        const options = _.extend({
-          background: true,
-        }, _.pick(indexConfig, optionKeys));
+        const options = _.extend(
+          {
+            background: true,
+          },
+          _.pick(indexConfig, optionKeys),
+        );
         const fields = _.omit(indexConfig, optionKeys);
         schema.index(fields, options);
       });
@@ -68,10 +72,13 @@ function initClient(uri) {
     /* istanbul ignore next */
     console.alert(`${maskUri} disconnected`);
   });
-  client.on('reconnected', _.debounce(() => {
-    /* istanbul ignore next */
-    console.info(`${maskUri} reconnected`);
-  }, 3000));
+  client.on(
+    'reconnected',
+    _.debounce(() => {
+      /* istanbul ignore next */
+      console.info(`${maskUri} reconnected`);
+    }, 3000),
+  );
   client.on('connecting', () => {
     /* istanbul ignore next */
     console.info(`${maskUri} connecting`);

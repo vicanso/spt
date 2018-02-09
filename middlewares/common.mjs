@@ -71,15 +71,16 @@ const version = (v, t) => {
     const currentVersion = _.get(ctx, 'state.versionConfig.version', 1);
     if (_.indexOf(versions, currentVersion) === -1) {
       const err = errors.get('common.versionInvalid');
-      err.message = err.message
-        .replace('#{currentVersion}', versions.join(','));
+      err.message = err.message.replace(
+        '#{currentVersion}',
+        versions.join(','),
+      );
       throw err;
     }
     const type = _.get(ctx, 'state.versionConfig.type', 'json');
     if (_.indexOf(typeList, type) === -1) {
       const err = errors.get('common.typeInvalid');
-      err.message = err.message
-        .replace('#{type}', typeList.join(','));
+      err.message = err.message.replace('#{type}', typeList.join(','));
       throw err;
     }
     return next();
@@ -91,26 +92,23 @@ const version = (v, t) => {
  * @return {Function} 返回中间件处理函数
  * @see {@link https://github.com/koajs/koa-fresh|GitHub}
  */
-const fresh = () => (ctx, next) => next().then(() => {
-  const {
-    status,
-    body,
-    method,
-  } = ctx;
-  if (!body || status === 304) {
-    return;
-  }
-  let cache = method === 'GET' || method === 'HEAD';
-  if (cache) {
-    cache = status >= 200 && status < 300;
-  }
-  if (cache && ctx.fresh) {
-    // eslint-disable-next-line
-    ctx.status = 304;
-    ctx.remove('Content-Type');
-    ctx.remove('Content-Length');
-  }
-});
+const fresh = () => (ctx, next) =>
+  next().then(() => {
+    const {status, body, method} = ctx;
+    if (!body || status === 304) {
+      return;
+    }
+    let cache = method === 'GET' || method === 'HEAD';
+    if (cache) {
+      cache = status >= 200 && status < 300;
+    }
+    if (cache && ctx.fresh) {
+      // eslint-disable-next-line
+      ctx.status = 304;
+      ctx.remove('Content-Type');
+      ctx.remove('Content-Length');
+    }
+  });
 
 /**
  * 路径的相关统计，用于全局增加到路径的处理函数中，记录`method`, `paht`, `spdy` 与 `use`。
@@ -120,27 +118,34 @@ const fresh = () => (ctx, next) => next().then(() => {
 const routeStats = () => (ctx, next) => {
   const start = Date.now();
   const end = ctx.state.timing.start('route');
-  const delayLog = (use) => {
+  const delayLog = use => {
     const method = ctx.method.toUpperCase();
-    const layer = _.find(ctx.matched, tmp => _.indexOf(tmp.methods, method) !== -1);
+    const layer = _.find(
+      ctx.matched,
+      tmp => _.indexOf(tmp.methods, method) !== -1,
+    );
     /* istanbul ignore if */
     if (!layer) {
       return;
     }
-    influx.write('httpRoute', {
-      use,
-      url: ctx.url,
-    }, {
-      method: method.toLowerCase(),
-      path: layer.path,
-      spdy: _.sortedIndex([30, 100, 300, 1000, 3000], use),
-    });
+    influx.write(
+      'httpRoute',
+      {
+        use,
+        url: ctx.url,
+      },
+      {
+        method: method.toLowerCase(),
+        path: layer.path,
+        spdy: _.sortedIndex([30, 100, 300, 1000, 3000], use),
+      },
+    );
   };
   const complete = () => {
     end();
     setImmediate(delayLog, Date.now() - start);
   };
-  return next().then(complete, (err) => {
+  return next().then(complete, err => {
     complete();
     throw err;
   });

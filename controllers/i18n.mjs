@@ -35,10 +35,18 @@ const readFile = util.promisify(fs.readFile);
  *    in: formData
  */
 const getDefaultSchema = () => ({
-  name: Joi.string().trim().max(100),
-  category: Joi.string().trim().max(20),
-  en: Joi.string().trim().max(200),
-  zh: Joi.string().trim().max(100),
+  name: Joi.string()
+    .trim()
+    .max(100),
+  category: Joi.string()
+    .trim()
+    .max(20),
+  en: Joi.string()
+    .trim()
+    .max(200),
+  zh: Joi.string()
+    .trim()
+    .max(100),
 });
 
 /**
@@ -170,10 +178,7 @@ export async function update(ctx) {
  */
 export async function list(ctx) {
   const schema = getDefaultSchema();
-  const {
-    category,
-    count,
-  } = Joi.validate(ctx.query, {
+  const {category, count} = Joi.validate(ctx.query, {
     category: Joi.alternatives().try(
       schema.category,
       Joi.array().items(schema.category),
@@ -223,7 +228,7 @@ export async function list(ctx) {
 export async function listCategory(ctx) {
   const items = await i18nService.find({}).select('category');
   const categories = [];
-  _.forEach(items, (item) => {
+  _.forEach(items, item => {
     if (!_.includes(categories, item.category)) {
       categories.push(item.category);
     }
@@ -233,7 +238,6 @@ export async function listCategory(ctx) {
     list: categories,
   };
 }
-
 
 /**
  * @swagger
@@ -261,18 +265,13 @@ export async function listCategory(ctx) {
  */
 export async function listCategoryByLang(ctx) {
   const schema = getDefaultSchema();
-  const {
-    category,
-  } = Joi.validate(ctx.query, {
-    category: Joi.alternatives().try(
-      schema.category,
-      Joi.array().items(schema.category),
-    ).required(),
+  const {category} = Joi.validate(ctx.query, {
+    category: Joi.alternatives()
+      .try(schema.category, Joi.array().items(schema.category))
+      .required(),
   });
   let cats = category;
-  const {
-    lang,
-  } = ctx.state;
+  const {lang} = ctx.state;
   const conditions = {};
   if (!_.isArray(cats)) {
     cats = [cats];
@@ -280,7 +279,7 @@ export async function listCategoryByLang(ctx) {
   conditions.category = cats;
   const items = await i18nService.find(conditions);
   const result = {};
-  _.forEach(items, (item) => {
+  _.forEach(items, item => {
     const cat = item.category;
     if (!result[cat]) {
       result[cat] = {};
@@ -291,7 +290,6 @@ export async function listCategoryByLang(ctx) {
   ctx.setCache('10m', '1m');
   ctx.body = result;
 }
-
 
 /**
  * @swagger
@@ -315,14 +313,13 @@ export async function get(ctx) {
   ctx.body = doc;
 }
 
-
 // 初始化i18n配置信息
 export async function init(ctx) {
   if (ctx.request.body.token !== 'SJhZZwZ0b') {
     throw new Error('Token is invalid');
   }
   const buf = await readFile(path.join(config.appPath, 'assets/i18n.json'));
-  _.forEach(JSON.parse(buf), async (item) => {
+  _.forEach(JSON.parse(buf), async item => {
     // eslint-disable-next-line
     item.creator = 'vicanso';
     const conditions = _.pick(item, ['category', 'name']);
@@ -332,4 +329,3 @@ export async function init(ctx) {
   });
   ctx.status = 201;
 }
-

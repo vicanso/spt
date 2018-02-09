@@ -29,7 +29,6 @@ export function getConnectingCount() {
   return map.get('connectingCount') || 0;
 }
 
-
 /**
  * Set connecting count
  */

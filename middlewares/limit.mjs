@@ -19,7 +19,7 @@ import * as globals from '../helpers/globals';
  */
 export const connection = (options, interval) => {
   let connectionLimitTimer;
-  return limit(options, (status) => {
+  return limit(options, status => {
     console.info(`connection-limit status:${status}`);
     if (status === 'high') {
       // 如果并发处理数已到达high值，设置状态为 pause，此时ping请求返回error，反向代理(nginx, haproxy)认为此程序有问题，不再转发请求到此程序
@@ -40,11 +40,10 @@ export const connection = (options, interval) => {
   });
 };
 
-
 /**
  * 创建一个limiter中间件
  */
-export const createLimiter = (options) => {
+export const createLimiter = options => {
   const limiter = limiterService.create(options);
   return limiter.middleware();
 };

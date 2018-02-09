@@ -3,7 +3,6 @@ import _ from 'lodash';
 
 import * as config from '../config';
 
-
 const client = new Redis(config.redisUri, {
   keyPrefix: `${config.app}:`,
 });
@@ -21,7 +20,6 @@ client.on('error', err => delayLog(err.message, 'error'));
 
 // 延时输出日志，避免一直断开连接时大量无用日志
 client.on('connect', () => delayLog('connected'));
-
 
 class SessionStore {
   constructor(redisClient) {

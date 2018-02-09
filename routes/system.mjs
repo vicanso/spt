@@ -6,11 +6,7 @@ export default [
     '/sys/:collection/ensure-indexes',
     'm.admin & c.system.ensureIndexes',
   ],
-  [
-    'GET',
-    '/sys/:collection/indexes',
-    'c.system.getIndexes',
-  ],
+  ['GET', '/sys/:collection/indexes', 'c.system.getIndexes'],
   ['PUT', '/sys/resume', 'm.admin & c.system.resume'],
   ['GET', '/sys/status', 'm.noQuery & c.system.status'],
   ['GET', '/sys/stats', 'm.noQuery & c.system.stats'],

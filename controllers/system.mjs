@@ -12,9 +12,7 @@ import * as config from '../config';
 import * as globals from '../helpers/globals';
 import * as mongo from '../helpers/mongo';
 
-
 const readFile = util.promisify(fs.readFile);
-
 
 /**
  * 获取系统当前运行的版本package.json与读取文件package.json的版本号，
@@ -114,15 +112,18 @@ export function resume(ctx) {
 export async function status(ctx) {
   const version = await getVersion();
   const sceonds = Number.parseInt(process.uptime(), 10);
-  const uptime = moment(Date.now() - (sceonds * 1000));
+  const uptime = moment(Date.now() - sceonds * 1000);
   ctx.setCache('10s');
-  ctx.body = _.extend({
-    ins: config.ins,
-    connectingTotal: globals.getConnectingCount(),
-    status: globals.isRunning() ? 'running' : 'pause',
-    uptime: uptime.fromNow(),
-    startedAt: uptime.toISOString(),
-  }, version);
+  ctx.body = _.extend(
+    {
+      ins: config.ins,
+      connectingTotal: globals.getConnectingCount(),
+      status: globals.isRunning() ? 'running' : 'pause',
+      uptime: uptime.fromNow(),
+      startedAt: uptime.toISOString(),
+    },
+    version,
+  );
 }
 
 /**
@@ -199,7 +200,6 @@ export function exit(ctx) {
   ctx.body = null;
 }
 
-
 /**
  * 读取swagger api 文档信息
  */
@@ -209,7 +209,6 @@ export async function apis(ctx) {
   ctx.setCache('5m');
   ctx.body = JSON.parse(buf);
 }
-
 
 /**
  * @swagger
@@ -224,14 +223,11 @@ export async function apis(ctx) {
  *        description: 执行成功时返回
  */
 export async function ensureIndexes(ctx) {
-  const {
-    collection,
-  } = ctx.params;
+  const {collection} = ctx.params;
   const Model = mongo.get(collection);
   await Model.ensureIndexes();
   ctx.body = null;
 }
-
 
 /**
  * @swagger
@@ -246,9 +242,7 @@ export async function ensureIndexes(ctx) {
  *        description: 获取成功时返回
  */
 export async function getIndexes(ctx) {
-  const {
-    collection,
-  } = ctx.params;
+  const {collection} = ctx.params;
   const Model = mongo.get(collection);
   const data = await Model.collection.getIndexes();
   ctx.body = data;

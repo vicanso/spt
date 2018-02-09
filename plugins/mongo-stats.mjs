@@ -6,9 +6,16 @@ import influx from '../helpers/influx';
 function writeStats(data) {
   const keys = ['model', 'op'];
   const spdy = _.sortedIndex([100, 300, 1000, 3000], data.use);
-  influx.write('mongo', _.omit(data, keys), _.extend({
-    spdy,
-  }, _.pick(data, keys)));
+  influx.write(
+    'mongo',
+    _.omit(data, keys),
+    _.extend(
+      {
+        spdy,
+      },
+      _.pick(data, keys),
+    ),
+  );
 }
 
 export default function stats(schema, model) {
@@ -35,10 +42,11 @@ export default function stats(schema, model) {
       use,
       size,
     };
-    _.forEach(['_conditions', '_fields', '_update'], (key) => {
+    _.forEach(['_conditions', '_fields', '_update'], key => {
       const value = _.get(this, key);
       if (!_.isEmpty(value)) {
-        result[key.substring(1)] = stringify.json(value, 2)
+        result[key.substring(1)] = stringify
+          .json(value, 2)
           .replace(/"/g, '\\"');
       }
     });
@@ -51,13 +59,13 @@ export default function stats(schema, model) {
     'findOneAndRemove',
     'count',
   ];
-  _.forEach(fns, (fn) => {
+  _.forEach(fns, fn => {
     schema.pre(fn, addStartedAt);
     schema.post(fn, addQueryStats);
   });
 
   schema.pre('save', addStartedAt);
-  schema.post('save', (doc) => {
+  schema.post('save', doc => {
     writeStats({
       model,
       op: 'save',
@@ -66,4 +74,3 @@ export default function stats(schema, model) {
     });
   });
 }
-

@@ -13,7 +13,8 @@ export const version = pkg.version;
 export const app = pkg.name;
 
 // eslint-disable-next-line
-export const httpLogFommat = ':account :request-id :method :url :status :length :response-time ms ":referrer"';
+export const httpLogFommat =
+  ':account :request-id :method :url :status :length :response-time ms ":referrer"';
 
 export const trackCookie = 'jt';
 
@@ -25,7 +26,8 @@ export const ins = shortid();
 export const logger = process.env.LOG;
 
 // mongodb connection uri
-export const mongoUri = process.env.MONGO || 'mongodb://127.0.0.1/spt?connectTimeoutMS=300000';
+export const mongoUri =
+  process.env.MONGO || 'mongodb://127.0.0.1/spt?connectTimeoutMS=300000';
 
 // redis connection uri
 export const redisUri = process.env.REDIS || 'redis://127.0.0.1/';

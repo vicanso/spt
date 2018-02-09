@@ -4,10 +4,7 @@
 import _ from 'lodash';
 import ms from 'ms';
 
-import {
-  getConnectingCount,
-  setConnectingCount,
-} from '../helpers/globals';
+import {getConnectingCount, setConnectingCount} from '../helpers/globals';
 
 /**
  * HTTP请求入口的中间件处理，包括：
@@ -21,9 +18,7 @@ import {
  * @return {Function} 返回中间件处理函数
  */
 export default (appInfo, appUrlPrefix) => async (ctx, next) => {
-  const {
-    timing,
-  } = ctx.state;
+  const {timing} = ctx.state;
   const currentPath = ctx.path;
   if (appUrlPrefix && currentPath.indexOf(appUrlPrefix) === 0) {
     // eslint-disable-next-line

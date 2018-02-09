@@ -28,20 +28,21 @@ import influx from '../helpers/influx';
  * @return {Function} 返回中间件处理函数
  * @see {@link https://github.com/vicanso/koa-http-stats|GitHub}
  */
-export default options => httpStats(options, (performance, statsData, ctx) => {
-  const tagKeys = 'status spdy size busy'.split(' ');
-  const fields = _.omit(statsData, tagKeys);
-  fields.ip = ctx.ip;
-  fields.url = ctx.url;
-  const requestedAt = Number.parseInt(ctx.get('X-Requested-At') || 0, 10);
-  if (requestedAt) {
-    fields.request = Date.now() - requestedAt - statsData.use;
-  } else {
-    fields.request = 0;
-  }
-  const tags = _.pick(statsData, tagKeys);
-  tags.type = tags.status;
-  delete tags.status;
-  tags.method = ctx.method;
-  influx.write('response', fields, tags);
-});
+export default options =>
+  httpStats(options, (performance, statsData, ctx) => {
+    const tagKeys = 'status spdy size busy'.split(' ');
+    const fields = _.omit(statsData, tagKeys);
+    fields.ip = ctx.ip;
+    fields.url = ctx.url;
+    const requestedAt = Number.parseInt(ctx.get('X-Requested-At') || 0, 10);
+    if (requestedAt) {
+      fields.request = Date.now() - requestedAt - statsData.use;
+    } else {
+      fields.request = 0;
+    }
+    const tags = _.pick(statsData, tagKeys);
+    tags.type = tags.status;
+    delete tags.status;
+    tags.method = ctx.method;
+    influx.write('response', fields, tags);
+  });

@@ -4,9 +4,7 @@ import als from 'async-local-storage';
 
 import commonErrors from './common';
 import userErrors from './user';
-import {
-  app,
-} from '../config';
+import {app} from '../config';
 
 const errors = {
   common: commonErrors,
@@ -35,4 +33,3 @@ export default {
   get,
   create,
 };
-

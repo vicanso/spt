@@ -10,8 +10,8 @@ if (config.logger) {
   logger.before(() => als.get('account'));
   logger.before(() => als.get('id'));
   logger.wrap(console);
-  'emerg alert crit'.split(' ').forEach((event) => {
-    logger.on(event, (message) => {
+  'emerg alert crit'.split(' ').forEach(event => {
+    logger.on(event, message => {
       console.dir(message);
       // TODO 发送email警报
     });

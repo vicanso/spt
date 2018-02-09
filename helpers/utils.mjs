@@ -1,4 +1,3 @@
-
 import request from 'superagent';
 
 import * as config from '../config';
@@ -32,7 +31,6 @@ export function selfRequest(method, url) {
   return request[method](requestUrl);
 }
 
-
 /**
  * 延时执行(Promise)
  * @param {Integer} ms 延时的ms
@@ -41,19 +39,19 @@ export function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-
 /**
  * 该请求是否不可以缓存
  * @param {Context} ctx
  */
 export function isNoCache(ctx) {
-  const {
-    method,
-  } = ctx;
+  const {method} = ctx;
   if (method !== 'GET' && method !== 'HEAD') {
     return true;
   }
-  if (ctx.get('Cache-Control') === 'no-cache' || ctx.query['cache-control'] === 'no-cache') {
+  if (
+    ctx.get('Cache-Control') === 'no-cache' ||
+    ctx.query['cache-control'] === 'no-cache'
+  ) {
     return true;
   }
   return false;

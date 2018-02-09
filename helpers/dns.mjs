@@ -7,7 +7,6 @@ import dns from 'dns';
 
 import * as settingService from '../services/setting';
 
-
 const dnsSetting = {
   createdAt: 0,
   data: {},
@@ -19,14 +18,9 @@ function getLookupInfo(name, ttl) {
     // 从配置中读取
     const data = settingService.get('dns');
     const result = {};
-    _.forEach(data, (item) => {
-      let {
-        host,
-        ip,
-      } = item;
-      const {
-        family,
-      } = item;
+    _.forEach(data, item => {
+      let {host, ip} = item;
+      const {family} = item;
       if (!_.isArray(host)) {
         host = [host];
       }
@@ -34,7 +28,7 @@ function getLookupInfo(name, ttl) {
         ip = [ip];
       }
       // 将ip与family保存
-      _.forEach(host, (tmp) => {
+      _.forEach(host, tmp => {
         result[tmp] = {
           ip,
           family,
@@ -55,9 +49,7 @@ function getLookupInfo(name, ttl) {
 
 // 启用dns自定义配置
 export default function start(ttl = 300) {
-  const {
-    lookup,
-  } = dns;
+  const {lookup} = dns;
   dns.lookup = (...args) => {
     const info = getLookupInfo(args[0], ttl * 1000);
     if (info) {

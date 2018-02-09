@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import stringify from 'simple-stringify';
 
-
 /**
  * HTTP Request stats
  *
@@ -29,9 +28,7 @@ export default function httpStats(req) {
       method: req.method,
       startedAt: Date.now(),
     });
-    const {
-      backendServer,
-    } = req;
+    const {backendServer} = req;
     if (backendServer) {
       Object.assign(stats, _.pick(backendServer, ['ip', 'port']));
     }
@@ -39,12 +36,12 @@ export default function httpStats(req) {
       stats.data = stringify.json(sendData);
     }
   });
-  req.once('error', (err) => {
+  req.once('error', err => {
     stats.code = -1;
     stats.error = err.message;
     finished();
   });
-  req.once('response', (res) => {
+  req.once('response', res => {
     stats.code = res.statusCode;
     finished();
   });

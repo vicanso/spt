@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import stringify from 'simple-stringify';
 
-
 /**
  * @swagger
  * /stats/requests:
@@ -12,7 +11,7 @@ import stringify from 'simple-stringify';
  *        description: 记录成功
  */
 export function add(ctx) {
-  _.forEach(ctx.request.body, (item) => {
+  _.forEach(ctx.request.body, item => {
     console.info(`browser-ajax ${stringify.json(item)}`);
   });
   ctx.status = 201;
@@ -28,7 +27,7 @@ export function add(ctx) {
  *        description: 记录成功
  */
 export function exception(ctx) {
-  _.forEach(ctx.request.body, (item) => {
+  _.forEach(ctx.request.body, item => {
     console.error(`browser-exception ${stringify.json(item)}`);
   });
   ctx.status = 201;
@@ -44,7 +43,7 @@ export function exception(ctx) {
  *        description: 记录成功
  */
 export function route(ctx) {
-  _.forEach(ctx.request.body, (item) => {
+  _.forEach(ctx.request.body, item => {
     console.info(`route ${stringify.json(item)}`);
   });
   ctx.status = 201;

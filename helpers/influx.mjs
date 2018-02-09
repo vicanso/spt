@@ -4,9 +4,7 @@ import stringify from 'simple-stringify';
 
 import schemas from '../influx-schemas';
 import debug from './debug';
-import {
-  getParam,
-} from './utils';
+import {getParam} from './utils';
 import * as config from '../config';
 
 let client = null;
@@ -20,7 +18,8 @@ function flush() {
   if (!count) {
     return;
   }
-  client.syncWrite()
+  client
+    .syncWrite()
     .then(() => console.info(`influxdb write ${count} records sucess`))
     .catch(err => console.error(`influxdb write fail, ${err.message}`));
 }
@@ -28,12 +27,8 @@ function flush() {
 function init(url) {
   client = new Influx(url);
   const debounceFlush = _.debounce(flush, 30 * 1000);
-  Object.keys(schemas).forEach((measurement) => {
-    const {
-      fields,
-      tags,
-      options,
-    } = schemas[measurement];
+  Object.keys(schemas).forEach(measurement => {
+    const {fields, tags, options} = schemas[measurement];
     client.schema(measurement, fields, tags, options);
   });
   client.timeout = 3000;
@@ -45,7 +40,7 @@ function init(url) {
       debounceFlush();
     }
   });
-  client.on('queue', ({ type, data }) => {
+  client.on('queue', ({type, data}) => {
     // 全局增加server field
     if (type === 'write') {
       // eslint-disable-next-line
@@ -53,14 +48,13 @@ function init(url) {
     }
   });
 
-  client.on('invalid-fields', (data) => {
+  client.on('invalid-fields', data => {
     console.error(`influx invalid fields:${stringify.json(data, 3)}`);
   });
-  client.on('invalid-tags', (data) => {
+  client.on('invalid-tags', data => {
     console.error(`influx invalid tags:${stringify.json(data, 3)}`);
   });
 }
-
 
 function write(measurement, fields, ...args) {
   /* istanbul ignore if */
@@ -68,8 +62,7 @@ function write(measurement, fields, ...args) {
     debug('measurement:%s, fields:%j, args:%j', measurement, fields, args);
     return null;
   }
-  const writer = client.write(measurement)
-    .field(fields);
+  const writer = client.write(measurement).field(fields);
   const tags = getParam(args, _.isObject);
   /* istanbul ignore else */
   if (tags) {
@@ -88,4 +81,3 @@ export default {
   getClient: () => client,
   write,
 };
-

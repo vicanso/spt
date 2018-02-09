@@ -26,8 +26,9 @@
     "coverage": "node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test/*.js test/*/*.js --",
     "dev": "nodemon --experimental-modules app.mjs",
     "docs": "node --experimental-modules build/api.mjs",
+    "format": "node node_modules/.bin/prettier --write *.mjs */*.mjs */**/*.mjs",
     "lint": "node ./node_modules/.bin/eslint *.mjs */*.mjs */**/*.mjs",
-    "precommit": "npm run lint",
+    "precommit": "npm run format && git add . && npm run lint",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
     "start": "node --experimental-modules app",
     "test": "npm run lint && NODE_ENV=test INFLUX=http://127.0.0.1:8086/spt npm run coverage",
@@ -66,10 +67,11 @@
     "timtam-logger": "^2.1.2"
   },
   "devDependencies": {
-    "eslint": "^4.13.1",
-    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint": "^4.17.0",
     "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-prettier": "^2.6.0",
     "husky": "^0.14.3",
+    "prettier": "^1.10.2",
     "swagger-jsdoc": "^1.9.7",
     "validate-commit-msg": "^2.14.0"
   }

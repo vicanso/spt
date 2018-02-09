@@ -6,7 +6,6 @@ import Limiter from 'superlimiter';
 
 import client from '../helpers/redis';
 
-
 const loginFailLimiter = new Limiter(client, {
   // 间隔时间10分钟
   ttl: 10 * 60,
