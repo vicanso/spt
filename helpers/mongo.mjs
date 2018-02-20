@@ -5,9 +5,7 @@ import mongoose from 'mongoose';
 import * as config from '../config';
 import models from '../models';
 import statsPlugin from '../plugins/mongo-stats';
-import {isDevelopment} from '../helpers/utils';
 
-const {Schema} = mongoose;
 mongoose.Promise = bluebird;
 
 /**
@@ -16,19 +14,8 @@ mongoose.Promise = bluebird;
  * @param  {MongooseClient} conn   mongoose实例化的client
  */
 function initModels(conn) {
-  const autoIndex = isDevelopment();
-  _.forEach(models, (model, key) => {
-    const name = model.name || key.charAt(0).toUpperCase() + key.substring(1);
-    const schema = new Schema(
-      model.schema,
-      _.extend(
-        {
-          timestamps: true,
-          autoIndex,
-        },
-        model.options,
-      ),
-    );
+  _.forEach(models, fn => {
+    const {schema, name} = fn(conn);
     schema.set('toObject', {
       getters: true,
     });
@@ -36,20 +23,6 @@ function initModels(conn) {
       getters: true,
     });
     statsPlugin(schema, name);
-    if (model.indexes) {
-      _.forEach(model.indexes, indexConfig => {
-        const optionKeys = ['unique', 'expireAfterSeconds'];
-        const options = _.extend(
-          {
-            background: true,
-          },
-          _.pick(indexConfig, optionKeys),
-        );
-        const fields = _.omit(indexConfig, optionKeys);
-        schema.index(fields, options);
-      });
-    }
-    conn.model(name, schema);
   });
 }
 
