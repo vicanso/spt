@@ -21,3 +21,12 @@
 - refactor：重构（即不是新增功能，也不是修改bug的代码变动）
 - test：增加测试
 - chore：构建过程或辅助工具的变动
+
+
+### docker run
+
+docker run \
+  -d --restart=always \
+  -e MONGO=mongodb://192.168.31.176/spt?connectTimeoutMS=300000 \
+  -e REDIS=redis://192.168.31.176/ \
+  vicanso/spt
