@@ -3,7 +3,7 @@ FROM node:alpine
 ADD ./ /app
 
 RUN cd /app \
-  && npm i --production \
-  && npm cache clean --force \
+  && yarn install --production \
+  && yarn cache clean \
   && npm run gen-version
 CMD ["node", "--experimental-modules", "/app/app"]
