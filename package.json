@@ -32,8 +32,8 @@
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
     "start": "node --experimental-modules app",
     "test": "npm run lint && NODE_ENV=test INFLUX=http://127.0.0.1:8086/spt npm run coverage",
-    "gen-version": "node --experimental-modules  build/gen-version",
-    "update": "node build/update"
+    "gen-version": "node --experimental-modules build/gen-version",
+    "update": "node --experimental-modules build/update.mjs"
   },
   "license": "MIT",
   "dependencies": {
