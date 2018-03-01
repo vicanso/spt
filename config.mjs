@@ -1,7 +1,7 @@
-import path from 'path';
 import shortid from 'shortid';
 
 import pkg from './package';
+import expose from './expose';
 
 export const port = Number.parseInt(process.env.PORT, 10) || 5018;
 
@@ -32,7 +32,7 @@ export const mongoUri =
 // redis connection uri
 export const redisUri = process.env.REDIS || 'redis://127.0.0.1/';
 
-export const appPath = path.dirname(process.argv[1]);
+export const appPath = expose.dirname;
 
 // cookie name
 export const session = {
