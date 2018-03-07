@@ -20,7 +20,7 @@ const readFile = util.promisify(fs.readFile);
  * @return {Object} 返回版本号信息 {pkg: 程序版本号, gen: 生成镜像的时间版本号}
  */
 async function getVersion() {
-  const buf = await readFile(path.join(config.appPath, 'assets/version'));
+  const buf = await readFile(path.join(config.appPath, '../assets/version'));
   return {
     pkg: config.version,
     gen: buf.toString(),
@@ -231,7 +231,7 @@ export async function ensureIndexes(ctx) {
 
 /**
  * @swagger
- * /sys/:collection/indexes
+ * /sys/:collection/indexes:
  *  get:
  *    description: 获取该collection对应的索引
  *    summary: 获取索引

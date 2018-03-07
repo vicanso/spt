@@ -111,6 +111,7 @@ export async function add(ctx) {
   schema.name.required();
   schema.category.required();
   const data = Joi.validate(ctx.request.body, schema);
+  console.dir(data);
   data.creator = ctx.session.user.account;
   const doc = await i18nService.add(data);
   ctx.status = 201;

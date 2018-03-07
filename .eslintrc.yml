@@ -12,5 +12,4 @@ rules:
     - .js
     - .json
 globals:
-  describe: true
-  it: true
+  test: true

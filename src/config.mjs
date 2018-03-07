@@ -1,6 +1,6 @@
 import shortid from 'shortid';
 
-import pkg from './package';
+import pkg from '../package';
 import expose from './expose';
 
 export const port = Number.parseInt(process.env.PORT, 10) || 5018;

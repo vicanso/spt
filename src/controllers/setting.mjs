@@ -142,7 +142,7 @@ export async function get(ctx) {
 
 /**
  * @swagger
- * /settings/:id
+ * /settings/:id:
  *  patch:
  *    description: 更新setting配置。中间件：m.admin
  *    summary: 更新setting配置
