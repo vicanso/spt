@@ -1,10 +1,8 @@
 /**
  * 此中间件主要对于所有请求做入口的初始化
  */
-import _ from 'lodash';
-import ms from 'ms';
-
 import {getConnectingCount, setConnectingCount} from '../helpers/globals';
+import {setCache} from '../helpers/utils';
 
 /**
  * HTTP请求入口的中间件处理，包括：
@@ -25,19 +23,7 @@ export default (appInfo, appUrlPrefix) => async (ctx, next) => {
     ctx.path = currentPath.substring(appUrlPrefix.length) || '/';
   }
   ctx.setCache = (ttl, sMaxAge) => {
-    let seconds = ttl;
-    if (_.isString(seconds)) {
-      seconds = _.ceil(ms(ttl) / 1000);
-    }
-    let cacheControl = `public, max-age=${seconds}`;
-    if (sMaxAge) {
-      let sMaxAgeSeconds = sMaxAge;
-      if (_.isString(sMaxAgeSeconds)) {
-        sMaxAgeSeconds = _.ceil(ms(sMaxAgeSeconds) / 1000);
-      }
-      cacheControl += `, s-maxage=${sMaxAgeSeconds}`;
-    }
-    ctx.set('Cache-Control', cacheControl);
+    setCache(ctx, ttl, sMaxAge);
   };
   let via = ctx.get('Via');
   if (!via) {

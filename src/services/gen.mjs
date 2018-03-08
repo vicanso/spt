@@ -99,5 +99,6 @@ export default function gen(collection) {
   _.forEach(fns, (fn, name) => {
     wrapper[name] = (...args) => fn(collection, ...args);
   });
+  wrapper.Model = mongo.get(collection);
   return wrapper;
 }

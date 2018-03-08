@@ -45,7 +45,9 @@ function attemptThrow(value, schema) {
 }
 
 function objectId() {
-  return Joi.string().regex(/^[a-z0-9]{24}$/);
+  return Joi.string()
+    .regex(/^[a-z0-9]{24}$/)
+    .required();
 }
 
 Joi.validate = validateThrow;

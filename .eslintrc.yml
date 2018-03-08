@@ -13,3 +13,5 @@ rules:
     - .json
 globals:
   test: true
+  expect: true
+  afterAll: true

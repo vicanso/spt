@@ -1,4 +1,8 @@
 import request from 'superagent';
+import Koa from 'koa';
+import Stream from 'stream';
+import _ from 'lodash';
+import ms from 'ms';
 
 import * as config from '../config';
 
@@ -35,8 +39,8 @@ export function selfRequest(method, url) {
  * 延时执行(Promise)
  * @param {Integer} ms 延时的ms
  */
-export function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+export function delay(v) {
+  return new Promise(resolve => setTimeout(resolve, v));
 }
 
 /**
@@ -63,4 +67,43 @@ export function isDevelopment() {
 
 export function isProduction() {
   return config.env === 'production';
+}
+
+export function setCache(ctx, ttl, sMaxAge) {
+  let seconds = ttl;
+  if (_.isString(seconds)) {
+    seconds = _.ceil(ms(ttl) / 1000);
+  }
+  let cacheControl = `public, max-age=${seconds}`;
+  if (sMaxAge) {
+    let sMaxAgeSeconds = sMaxAge;
+    if (_.isString(sMaxAgeSeconds)) {
+      sMaxAgeSeconds = _.ceil(ms(sMaxAgeSeconds) / 1000);
+    }
+    cacheControl += `, s-maxage=${sMaxAgeSeconds}`;
+  }
+  ctx.set('Cache-Control', cacheControl);
+}
+
+export function createContext(requestUrl) {
+  const socket = new Stream.Duplex();
+  const req = Object.assign({headers: {}, socket}, Stream.Readable.prototype);
+  const res = Object.assign({_headers: {}, socket}, Stream.Writable.prototype);
+  req.socket.remoteAddress = req.socket.remoteAddress || '127.0.0.1';
+  const app = new Koa();
+  // eslint-disable-next-line
+  res.getHeader = k => res._headers[k.toLowerCase()];
+  // eslint-disable-next-line
+  res.setHeader = (k, v) => (res._headers[k.toLowerCase()] = v);
+  // eslint-disable-next-line
+  res.removeHeader = k => delete res._headers[k.toLowerCase()];
+  const ctx = app.createContext(req, res);
+  ctx.params = {};
+  if (requestUrl) {
+    ctx.request.url = requestUrl;
+  }
+  ctx.setCache = (ttl, sMaxAge) => {
+    setCache(ctx, ttl, sMaxAge);
+  };
+  return ctx;
 }
