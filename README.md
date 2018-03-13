@@ -22,11 +22,18 @@
 - test：增加测试
 - chore：构建过程或辅助工具的变动
 
+### docker build
+
+```bash
+docker build -t vicanso/spt .
+```
 
 ### docker run
 
+```
 docker run \
   -d --restart=always \
   -e MONGO=mongodb://192.168.31.176/spt?connectTimeoutMS=300000 \
   -e REDIS=redis://192.168.31.176/ \
   vicanso/spt
+```
