@@ -75,9 +75,9 @@ export function setCache(ctx, ttl, sMaxAge) {
     seconds = _.ceil(ms(ttl) / 1000);
   }
   let cacheControl = `public, max-age=${seconds}`;
-  let sMaxAgeSeconds = 0;
-  const maxCacheAge = 60;
   const isDev = !isProduction();
+  let sMaxAgeSeconds = isDev ? seconds : 0;
+  const maxCacheAge = 60;
 
   if (sMaxAge) {
     sMaxAgeSeconds = sMaxAge;
