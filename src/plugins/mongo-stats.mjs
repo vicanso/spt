@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import stringify from 'simple-stringify';
 
 import influx from '../helpers/influx';
+import stringify from '../helpers/stringify';
 
 function writeStats(data) {
   const keys = ['model', 'op'];
@@ -38,16 +38,14 @@ export default function stats(schema, model) {
     const result = {
       op: this.op,
       model,
-      options: stringify.json(this.options).replace(/"/g, '\\"'),
+      options: stringify(this.options),
       use,
       size,
     };
     _.forEach(['_conditions', '_fields', '_update'], key => {
       const value = _.get(this, key);
       if (!_.isEmpty(value)) {
-        result[key.substring(1)] = stringify
-          .json(value, 2)
-          .replace(/"/g, '\\"');
+        result[key.substring(1)] = stringify(value).replace(/"/g, '\\"');
       }
     });
     writeStats(result);

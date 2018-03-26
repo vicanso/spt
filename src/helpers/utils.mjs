@@ -61,14 +61,26 @@ export function isNoCache(ctx) {
   return false;
 }
 
+/**
+ * 判断是否开发环境
+ */
 export function isDevelopment() {
   return config.env === 'development';
 }
 
+/**
+ * 判断是否生产环境
+ */
 export function isProduction() {
   return config.env === 'production';
 }
 
+/**
+ * 设置缓存的时长
+ * @param ctx
+ * @param ttl
+ * @param sMaxAge
+ */
 export function setCache(ctx, ttl, sMaxAge) {
   let seconds = ttl;
   if (_.isString(seconds)) {
@@ -95,6 +107,10 @@ export function setCache(ctx, ttl, sMaxAge) {
   ctx.set('Cache-Control', cacheControl);
 }
 
+/**
+ * 创建koa context
+ * @param requestUrl
+ */
 export function createContext(requestUrl) {
   const socket = new Stream.Duplex();
   const req = Object.assign({headers: {}, socket}, Stream.Readable.prototype);
