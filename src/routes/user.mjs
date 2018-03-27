@@ -3,14 +3,10 @@ export default [
   ['PATCH', '/users/me', 'm.session & c.user.refresh'],
   [
     'POST',
-    '/users/register',
+    '/users/me',
     ['m.anonymous', 'm.tracker("register")', 'c.user.register'],
   ],
-  [
-    'DELETE',
-    '/users/logout',
-    ['m.login', 'm.tracker("logout")', 'c.user.logout'],
-  ],
+  ['DELETE', '/users/me', ['m.login', 'm.tracker("logout")', 'c.user.logout']],
   ['GET', '/users/login', 'm.anonymous & c.user.loginToken'],
   [
     'POST',

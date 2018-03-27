@@ -88,7 +88,7 @@ function pickUserInfo(userInfos) {
 
 /**
  * @swagger
- * /users/register:
+ * /users/me:
  *  post:
  *    description: 注册新账号。中间件：m.anonymous
  *    summary: 注册账号
@@ -130,7 +130,7 @@ export async function register(ctx) {
 
 /**
  * @swagger
- * /users/logout:
+ * /users/me:
  *  delete:
  *    description: 退出用户当前登录态。中间件：m.login
  *    summary: 注销登录
