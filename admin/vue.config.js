@@ -8,6 +8,9 @@ module.exports = {
     },
   },
   configureWebpack: {
+    output: {
+      publicPath: './',
+    },
     plugins: [
       new webpack.DefinePlugin({
         ENV: JSON.stringify(process.env.NODE_ENV || 'development'),

@@ -69,6 +69,8 @@ export default function createServer() {
     app.use(koaLog(config.httpLogFormat));
   }
 
+  app.use(middlewares.admin('/admin'));
+
   // http stats
   app.use(middlewares.httpStats());
 

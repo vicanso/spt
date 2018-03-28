@@ -247,3 +247,11 @@ export async function getIndexes(ctx) {
   const data = await Model.collection.getIndexes();
   ctx.body = data;
 }
+
+export async function adminIndex(ctx) {
+  const file = path.join(config.appPath, '../admin/dist/index.html');
+  const buf = await readFile(file);
+  ctx.set('Content-Type', 'text/html; charset=utf-8');
+  ctx.setCache('1m');
+  ctx.body = buf;
+}
