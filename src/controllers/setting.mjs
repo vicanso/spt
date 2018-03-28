@@ -29,15 +29,16 @@ import settingService from '../services/setting';
  */
 const schema = {
   name: () =>
-    Joi.string().trim().max(30),
-  data: () =>
-    Joi.object(),
-  disabled: () =>
-    Joi.boolean(),
-  description: () => 
-    Joi.string().trim().max(100),
+    Joi.string()
+      .trim()
+      .max(30),
+  data: () => Joi.object(),
+  disabled: () => Joi.boolean(),
+  description: () =>
+    Joi.string()
+      .trim()
+      .max(100),
 };
-
 
 /**
  * @swagger

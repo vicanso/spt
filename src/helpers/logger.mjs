@@ -7,6 +7,7 @@ if (config.logger) {
   const logger = new Logger({
     app: config.app,
   });
+  logger.before(() => als.get('trackId'));
   logger.before(() => als.get('account'));
   logger.before(() => als.get('id'));
   logger.wrap(console);

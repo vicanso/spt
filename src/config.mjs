@@ -14,7 +14,7 @@ export const app = pkg.name;
 
 // eslint-disable-next-line
 export const httpLogFormat =
-  ':account :request-id :method :url :status :length :response-time ms ":referrer"';
+  ':method :url :status :length :response-time ms ":referrer"';
 
 export const trackCookie = 'jt';
 
