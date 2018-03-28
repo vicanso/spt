@@ -55,3 +55,16 @@ export function waitFor(ttl, startedAt) {
     setTimeout(resolve, Math.max(0, delay));
   });
 }
+
+// 获取不一致的数据
+export function diff(original, current, keys) {
+  const diffKeys = keys || _.keys(current);
+  const result = {};
+  _.forEach(diffKeys, key => {
+    const value = current[key];
+    if (original[key] !== value) {
+      result[key] = value;
+    }
+  });
+  return result;
+}

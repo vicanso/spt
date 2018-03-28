@@ -1,29 +1,38 @@
 <template lang="pug">
-  .settingPage 
-    h3.tac System Setting 
+  .mockPage
+    h3.tac Mock Setting
     div(
       v-if="mode === 0"
     )
-      p.tac(v-if="!settings || settings.length === 0") There isn't any system setting
+      p.tac(v-if="!mocks || mocks.length === 0") There isn't any mock setting
       el-table.table(
         v-else
-        :data="settings"
+        :data="mocks"
       )
         el-table-column(
-          prop="name"
-          label="Name"
+          prop="account"
+          label="Account"
+          width="100"
+        ) 
+        el-table-column(
+          prop="url"
+          label="Url"
           width="150"
         )
         el-table-column(
-          label="Data"
+          prop="status"
+          label="Status"
+          width="70"
+        )
+        el-table-column(
+          label="Response"
         )
           template(
             slot-scope="scope"
           )
-            pre {{scope.row.data}}
+            pre {{scope.row.response}}
         el-table-column(
-          label="Status"
-          width="100"
+          label="Disabled"
         )
           template(
             slot-scope="scope"
@@ -31,19 +40,8 @@
             span(v-if="scope.row.disabled") Disabled
             span(v-else) Enabled
         el-table-column(
-          prop="description"
           label="Description"
-          width="200"
-        )
-        el-table-column(
-          prop="date"
-          label="Date"
-          width="140"
-        )
-        el-table-column(
-          prop="creator"
-          label="Creator"
-          width="100"
+          prop="description"
         )
         el-table-column(
           label="OP"
@@ -59,18 +57,39 @@
       el-button.addSetting.mtop10(
         type="primary"
         @click.native="add"
-      ) Add Setting
+      ) Add Mock
     el-form.form(
       v-model="form"
       label-width="100px"
       v-if="mode === 1"
     )
       el-form-item(
-        label="Name"
+        label="Account"
       )
         el-input(
-          v-model="form.name"
+          v-model="form.account"
           autofocus
+        )
+      el-form-item(
+        label="Url"
+      )
+        el-input(
+          v-model="form.url"
+        )
+      el-form-item(
+        label="Status"
+      )
+        el-input(
+          type="number"
+          v-model="form.status"
+        )
+      el-form-item(
+        label="Response"
+      )
+        el-input(
+          v-model="form.response"
+          type="textarea"
+          :rows="8"
         )
       el-form-item(
         label="Disabled"
@@ -79,19 +98,12 @@
           v-model="form.disabled"
         )
       el-form-item(
-        label="Data"
-      )
-        el-input(
-          type="textarea"
-          v-model="form.data"
-          :rows="8"
-        )
-      el-form-item(
         label="Description"
       )
         el-input(
-          type="textarea"
           v-model="form.description"
+          type="textarea"
+          :rows="4"
         )
       el-form-item
         el-button(
@@ -101,11 +113,10 @@
         el-button(
           @click.native="mode = 0"
         ) Back
-
 </template>
-<script src="./setting.js"></script>
+<script src="./mock.js"></script>
 <style lang="sass" scoped>
-.settingPage
+.mockPage
   padding: 10px
 .form
   width: 600px
@@ -113,4 +124,5 @@
 .addSetting, .table
   width: 100%
 </style>
+
 

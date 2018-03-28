@@ -6,6 +6,7 @@ import {
 } from '../../urls';
 import {
   getDate,
+  diff,
 } from '../../helpers/util';
 
 export default {
@@ -65,15 +66,9 @@ export default {
       const close = this.$loading();
       try {
         if (id) {
-          const updateData = {};
           const found = _.find(this.settings, item => item.id === id);
           const keys = ['name', 'disabled', 'data', 'description'];
-          _.forEach(keys, (key) => {
-            const value = form[key];
-            if (found[key] !== value) {
-              updateData[key] = value;
-            }
-          });
+          const updateData = diff(found, form, keys);
           await request.patch(`${SETTINGS}/${id}`, updateData);
         } else {
           await request.post(SETTINGS, {

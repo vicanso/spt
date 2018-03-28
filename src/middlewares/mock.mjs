@@ -46,7 +46,7 @@ async function updateMock() {
 export default function getMockMiddleware() {
   // 如果已启动了定时更新的任务，则不需要再启动
   if (!isStartUpdate) {
-    setInterval(updateMock, 30 * 1000).unref();
+    setInterval(updateMock, 10 * 1000).unref();
     updateMock();
     isStartUpdate = true;
   }

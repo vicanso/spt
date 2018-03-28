@@ -1,6 +1,7 @@
 import Setting from '../views/setting';
 import Register from '../views/register';
 import Login from '../views/login';
+import Mock from '../views/mock';
 
 export default [
   {
@@ -17,5 +18,10 @@ export default [
     name: 'login',
     path: '/login',
     component: Login,
+  },
+  {
+    name: 'mock',
+    path: '/mock',
+    component: Mock,
   },
 ];
