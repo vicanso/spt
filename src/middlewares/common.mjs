@@ -151,6 +151,24 @@ const routeStats = () => (ctx, next) => {
   });
 };
 
+/**
+ * 延期处理，用于限制接口响应时间（如登录等功能，只针对成功的处理）
+ * @param ms
+ */
+const delayUntil = ms => (ctx, next) => {
+  const startedAt = Date.now();
+  return next().then(() => {
+    if (!ms || ms < 0) {
+      return Promise.resolve();
+    }
+    const remaining = ms - (Date.now() - startedAt);
+    if (remaining <= 0) {
+      return Promise.resolve();
+    }
+    return utils.delay(remaining);
+  });
+};
+
 export default {
   noQuery,
   deprecate,
@@ -158,4 +176,5 @@ export default {
   version,
   fresh,
   routeStats,
+  delayUntil,
 };

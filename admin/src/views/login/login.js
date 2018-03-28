@@ -23,6 +23,7 @@ export default {
           account,
           password,
         });
+        this.$router.back();
       } catch (err) {
         this.$error(err);
       } finally {

@@ -11,6 +11,7 @@
       )
         el-input(
           v-model="form.account"
+          @keyup.enter.native="submit"
           autofocus
         )
       el-form-item(
@@ -18,6 +19,7 @@
       )
         el-input(
           v-model="form.password"
+          @keyup.enter.native="submit"
           type="password"
         )
       el-form-item

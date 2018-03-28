@@ -1,10 +1,70 @@
 <template lang="pug">
   .settingPage 
     h3.tac System Setting 
-    el-form(
+    div(
+      v-if="mode === 0"
+    )
+      p.tac(v-if="!settings || settings.length === 0") There isn't any system setting
+      el-table(
+        v-else
+        :data="settings"
+      )
+        el-table-column(
+          prop="name"
+          label="Name"
+          width="150"
+        )
+        el-table-column(
+          label="Data"
+        )
+          template(
+            slot-scope="scope"
+          )
+            pre {{scope.row.data}}
+        el-table-column(
+          label="Status"
+          width="100"
+        )
+          template(
+            slot-scope="scope"
+          )
+            span(v-if="scope.row.disabled") Disabled
+            span(v-else) Enabled
+        el-table-column(
+          prop="description"
+          label="Description"
+          width="200"
+        )
+        el-table-column(
+          prop="date"
+          label="Date"
+          width="140"
+        )
+        el-table-column(
+          prop="creator"
+          label="Creator"
+          width="100"
+        )
+        el-table-column(
+          label="OP"
+          width="80"
+        )
+          template(
+            slot-scope="scope"
+          )
+            el-button(
+              type="text"
+              @click.native="edit(scope.row.id)"
+            ) Edit
+      el-button.addSetting.mtop10(
+        type="primary"
+        @click.native="add"
+      ) Add Setting
+    el-form.form(
       ref="form"
       v-model="form"
       label-width="100px"
+      v-if="mode === 1"
     )
       el-form-item(
         label="Name"
@@ -39,14 +99,19 @@
           type="primary"
           @click.native="submit"
         ) Submit 
-
+        el-button(
+          @click.native="mode = 0"
+        ) Back
 
 </template>
 <script src="./setting.js"></script>
 <style lang="sass" scoped>
 .settingPage
   padding: 10px
+.form
   width: 600px
   margin: auto
+.addSetting
+  width: 100%
 </style>
 

@@ -42,5 +42,6 @@ addToRouter('m.su', middlewares.session.su());
 addToRouter('m.level', middlewares.level);
 addToRouter('m.version', middlewares.common.version);
 addToRouter('m.tracker', middlewares.tracker);
+addToRouter('m.delayUntil', middlewares.common.delayUntil);
 
 export default getRouter(routes);
