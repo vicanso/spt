@@ -71,7 +71,7 @@ export default {
           });
           await request.post(MOCKS, data);
         }
-        this.loadingMocks();
+        await this.loadingMocks();
       } catch (err) {
         this.$error(err);
       } finally {

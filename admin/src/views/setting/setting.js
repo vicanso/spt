@@ -78,8 +78,7 @@ export default {
             description,
           });
         }
-        this.mode = 0;
-        this.loadSettings();
+        await this.loadSettings();
       } catch (err) {
         this.$error(err);
       } finally {
