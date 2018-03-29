@@ -34,8 +34,12 @@ export default {
           route: 'setting',
         },
         {
-          name: 'MOCK',
+          name: 'Mock',
           route: 'mock',
+        },
+        {
+          name: 'Tracker',
+          route: 'tracker',
         },
       ],
     };

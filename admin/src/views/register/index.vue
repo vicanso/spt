@@ -1,11 +1,11 @@
 <template lang="pug">
   .registerPage  
-    h3.tac Register 
-    el-form(
+    el-form.form(
       ref="form"
       v-model="form"
       label-width="100px"
     )
+      h3.tac Register 
       el-form-item(
         label="Account"
       )
@@ -49,6 +49,9 @@
   padding: 10px
   width: 600px
   margin: auto
+.form
+  margin-top: 60px
+  padding: 10px 30px 30px
 </style>
 
 <script src="./register.js"></script>

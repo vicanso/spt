@@ -38,6 +38,12 @@ export default category =>
     }
     const start = Date.now();
     const resultLog = (use, result) => {
+      if (!data.account) {
+        const currentAccount = _.get(ctx, 'session.user.account');
+        if (currentAccount) {
+          data.account = currentAccount;
+        }
+      }
       data.result = result;
       data.use = use;
       logUserTracker(data);

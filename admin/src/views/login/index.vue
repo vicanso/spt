@@ -1,11 +1,11 @@
 <template lang="pug">
   .loginPage
-    h3.tac Login
-    el-form(
+    el-form.form(
       ref="form"
       v-model="form"
       label-width="100px"
     )
+      h3.tac Login
       el-form-item(
         label="Account"
       )
@@ -22,7 +22,7 @@
           @keyup.enter.native="submit"
           type="password"
         )
-      el-form-item
+      el-form-item(style="margin-bottom:0")
         el-button(
           type='primary'
           @click="submit"
@@ -33,6 +33,9 @@
   padding: 10px
   width: 600px
   margin: auto
+.form
+  margin-top: 60px
+  padding: 10px 30px 30px
 </style>
 <script src="./login.js"></script>
 

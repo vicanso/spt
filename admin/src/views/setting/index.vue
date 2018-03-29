@@ -109,6 +109,7 @@
   padding: 10px
 .form
   width: 600px
+  padding: 40px 20px 20px
   margin: auto
 .addSetting, .table
   width: 100%
