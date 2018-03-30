@@ -32,20 +32,6 @@ import {getLoginFailCount, incLoginFailCount} from '../services/limiter';
  *      type: string
  *    in: formData
  */
-const getDefaultSchema = () => ({
-  account: Joi.string()
-    .trim()
-    .min(4)
-    .max(32),
-  password: Joi.string()
-    .trim()
-    .max(256),
-  email: Joi.string()
-    .trim()
-    .email()
-    .max(64),
-  roles: Joi.array().items(Joi.string().valid(['admin', 'tester'])),
-});
 
 const schema = {
   account: () =>
@@ -62,8 +48,7 @@ const schema = {
       .trim()
       .email()
       .max(64),
-  roles: () =>
-    Joi.array().items(Joi.string().valid(['admin', 'tester'])),
+  roles: () => Joi.array().items(Joi.string().valid(['admin', 'tester'])),
 };
 
 /**
