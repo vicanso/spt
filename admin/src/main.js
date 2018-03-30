@@ -9,6 +9,7 @@ import router from './router';
 import store from './store';
 import './request-interceptors';
 import {getErrorMessage} from './helpers/util';
+import {env} from './config';
 
 Vue.use(ElementUI);
 
@@ -45,8 +46,7 @@ Vue.prototype.$error = function $error(err) {
   this.$message.error(message);
 };
 
-// eslint-disable-next-line
-Vue.config.productionTip = ENV === 'production';
+Vue.config.productionTip = env === 'production';
 
 new Vue({
   router,

@@ -1,4 +1,11 @@
-const webpack = require('webpack');
+const env = process.env.NODE_ENV || 'development';
+
+const output = {};
+
+if (env !== 'development') {
+  output.publicPath = './';
+}
+
 module.exports = {
   devServer: {
     proxy: {
@@ -8,15 +15,11 @@ module.exports = {
     },
   },
   configureWebpack: {
-    output: {
-      publicPath: './',
-    },
-    plugins: [
-      new webpack.DefinePlugin({
-        ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-        APP: JSON.stringify('spt'),
-        URL_PREFIX: JSON.stringify('/api'),
-      }),
-    ],
+    output,
+    // plugins: [
+    //   new webpack.DefinePlugin({
+    //     ENV: JSON.stringify(env),
+    //   }),
+    // ],
   },
 };

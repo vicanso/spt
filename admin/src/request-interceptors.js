@@ -1,10 +1,11 @@
 import request from 'axios';
 
+import {urlPrefix} from './config';
+
 request.interceptors.request.use(config => {
   if (!config.timeout) {
     config.timeout = 10 * 1000;
   }
-  // eslint-disable-next-line
-  config.url = `${URL_PREFIX}${config.url}`;
+  config.url = `${urlPrefix}${config.url}`;
   return config;
 });

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import {sha256} from './crypto';
+import {app} from '../config';
 
 // 获取出错信息
 export function getErrorMessage(err) {
@@ -9,7 +10,7 @@ export function getErrorMessage(err) {
     const {data, headers} = err.response;
     const id = headers['x-response-id'];
     // eslint-disable-next-line
-    const code = data.code.replace(`${APP}-`, '');
+    const code = data.code.replace(`${app}-`, '');
     message = `${data.message}(${code}) [${id}]`;
   }
   if (_.isError(message)) {
@@ -24,7 +25,6 @@ export function getErrorMessage(err) {
 // 生成密码
 export function genPassword(account, password) {
   const pwd = sha256(password);
-  const app = APP || 'unknown';
   return sha256(`${account}-${pwd}-${app}`);
 }
 

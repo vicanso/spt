@@ -3,11 +3,11 @@ import Vuex from 'vuex';
 import createLogger from 'vuex/dist/logger';
 
 import modules from './modules';
+import {env} from '../config';
 
 Vue.use(Vuex);
 
-// eslint-disable-next-line
-const isProduction = ENV === 'production';
+const isProduction = env === 'production';
 const debug = !isProduction;
 
 const store = new Vuex.Store({

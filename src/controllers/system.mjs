@@ -248,10 +248,13 @@ export async function getIndexes(ctx) {
   ctx.body = data;
 }
 
+// 返回管理页面
 export async function adminIndex(ctx) {
   const file = path.join(config.appPath, '../admin/dist/index.html');
   const buf = await readFile(file);
   ctx.set('Content-Type', 'text/html; charset=utf-8');
   ctx.setCache('1m');
-  ctx.body = buf;
+  // 根据系统启动环境替换前端配置
+  const envScript = `var ENV = '${config.env}';`;
+  ctx.body = buf.toString().replace("var ENV = 'development';", envScript);
 }
