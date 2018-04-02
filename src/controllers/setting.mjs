@@ -175,7 +175,9 @@ export async function update(ctx) {
     description: schema.description(),
   });
   if (!_.isEmpty(data)) {
-    await settingService.findByIdAndUpdate(id, data);
+    const doc = await settingService.findById(id);
+    _.forEach(data, (v, k) => doc.set(k, v));
+    await doc.save();
   }
   ctx.body = null;
 }

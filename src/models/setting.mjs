@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 import {isDevelopment} from '../helpers/utils';
+import mongoUpdate from '../plugins/mongo-update';
 
 const {Schema} = mongoose;
 
@@ -32,6 +33,9 @@ export default function init(client) {
     autoIndex: isDevelopment(),
   });
   client.model(name, s);
+  mongoUpdate(s, {
+    collection: 'setting',
+  });
   return {
     name,
     schema: s,
