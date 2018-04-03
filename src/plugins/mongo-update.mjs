@@ -11,13 +11,13 @@ const defaultIgnoreKeys = ['updatedAt'];
 export default function update(schema, options = {}) {
   const ignoreKeys = options.ignoreKeys || defaultIgnoreKeys;
   const collection = options.collection || 'unknown';
-  schema.post('init', function post(doc) {
+  schema.post('init', function postInit(doc) {
     // 记录原始数据
     // eslint-disable-next-line
     this.__original = doc.toJSON();
   });
 
-  schema.pre('save', function pre() {
+  schema.pre('save', function preSave(next) {
     // eslint-disable-next-line
     const originalData = this.__original;
     // 如果是新创建的数据，不记录
@@ -42,5 +42,7 @@ export default function update(schema, options = {}) {
         updated,
       )} original:${stringify(original)}`,
     );
+    next();
   });
+
 }

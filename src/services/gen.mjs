@@ -24,6 +24,24 @@ function findOneAndUpdate(collection, ...args) {
 }
 
 /**
+ * 查找数据之后，再做更新
+ * @param {String} collection mongodb collection
+ * @param {Object} conditions 查询条件
+ * @param {Object} data 需要更新的数据
+ */
+
+async function findOneThenUpdate(collection, conditions, data) {
+  const Model = mongo.get(collection);
+  const doc = await Model.findOne(conditions);
+  if (!doc) {
+    return false;
+  }
+  _.forEach(data, (v, k) => doc.set(k, v));
+  await doc.save();
+  return true;
+}
+
+/**
  * 查找数据，参数与mongoose find一致
  *
  * @param {String} collection mongodb collection
@@ -94,6 +112,7 @@ export default function gen(collection) {
     findOne,
     findById,
     count,
+    findOneThenUpdate,
   };
   const wrapper = {};
   _.forEach(fns, (fn, name) => {
