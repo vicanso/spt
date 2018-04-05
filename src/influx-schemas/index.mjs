@@ -120,15 +120,8 @@ export default {
     },
     tags: {
       spdy: '01234'.split(''),
-      model: '*',
-      op: [
-        'find',
-        'findOne',
-        'findOneAndUpdate',
-        'findOneAndRemove',
-        'save',
-        'count',
-      ],
+      collection: '*',
+      op: '*',
     },
   },
   http: {

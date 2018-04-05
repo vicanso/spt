@@ -33,7 +33,7 @@ const schema = {
   isp: String,
 };
 
-export default function init(client) {
+export default function init() {
   const s = new Schema(schema, {
     timestamps: true,
     autoIndex: isDevelopment(),
@@ -63,7 +63,6 @@ export default function init(client) {
       background: true,
     },
   );
-  client.model(name, s);
   return {
     name,
     schema: s,

@@ -27,12 +27,11 @@ const schema = {
   description: String,
 };
 
-export default function init(client) {
+export default function init() {
   const s = new Schema(schema, {
     timestamps: true,
     autoIndex: isDevelopment(),
   });
-  client.model(name, s);
   mongoUpdate(s, {
     collection: 'setting',
   });

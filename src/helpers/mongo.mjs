@@ -1,10 +1,12 @@
 import _ from 'lodash';
 import bluebird from 'bluebird';
 import mongoose from 'mongoose';
+import stats from 'mongoose-stats';
 
 import * as config from '../config';
 import models from '../models';
-import statsPlugin from '../plugins/mongo-stats';
+import influx from '../helpers/influx';
+import stringify from '../helpers/stringify';
 
 mongoose.Promise = bluebird;
 
@@ -15,14 +17,37 @@ mongoose.Promise = bluebird;
  */
 function initModels(conn) {
   _.forEach(models, fn => {
-    const {schema, name} = fn(conn);
+    const {schema, name} = fn();
+    schema.plugin(stats, {
+      collection: name,
+    });
+    conn.model(name, schema);
     schema.set('toObject', {
       getters: true,
     });
     schema.set('toJSON', {
       getters: true,
     });
-    statsPlugin(schema, name);
+    schema.on('stats', (data) => {
+      const keys = ['collection', 'op'];
+      const spdy = _.sortedIndex([100, 300, 1000, 3000], data.use);
+      const fields = _.omit(data, keys);
+      _.forEach(fields, (v, k) => {
+        if (_.isObject(v)) {
+          fields[k] = stringify(v);
+        }
+      });
+      influx.write(
+        'mongo',
+        fields,
+        _.extend(
+          {
+            spdy,
+          },
+          _.pick(data, keys),
+        ),
+      );
+    })
   });
 }
 

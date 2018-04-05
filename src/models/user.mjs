@@ -28,12 +28,11 @@ const schema = {
   // 权限 su admin等
   roles: [String],
 };
-export default function init(client) {
+export default function init() {
   const s = new Schema(schema, {
     timestamps: true,
     autoIndex: isDevelopment(),
   });
-  client.model(name, s);
   return {
     schema: s,
     name,

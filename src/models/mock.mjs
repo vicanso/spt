@@ -30,7 +30,7 @@ const schema = {
   },
 };
 
-export default function init(client) {
+export default function init() {
   const s = new Schema(schema, {
     timestamps: true,
     autoIndex: isDevelopment(),
@@ -45,7 +45,6 @@ export default function init(client) {
       unique: true,
     },
   );
-  client.model(name, s);
   mongoUpdate(s, {
     collection: 'mock',
   });
