@@ -28,7 +28,7 @@ function initModels(conn) {
     schema.set('toJSON', {
       getters: true,
     });
-    schema.on('stats', (data) => {
+    schema.on('stats', data => {
       const keys = ['collection', 'op'];
       const spdy = _.sortedIndex([100, 300, 1000, 3000], data.use);
       const fields = _.omit(data, keys);
@@ -47,7 +47,7 @@ function initModels(conn) {
           _.pick(data, keys),
         ),
       );
-    })
+    });
   });
 }
 

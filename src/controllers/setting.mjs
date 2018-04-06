@@ -175,9 +175,12 @@ export async function update(ctx) {
     description: schema.description(),
   });
   if (!_.isEmpty(data)) {
-    await settingService.findOneThenUpdate({
-      _id: id,
-    }, data);
+    await settingService.findOneThenUpdate(
+      {
+        _id: id,
+      },
+      data,
+    );
   }
   ctx.body = null;
 }

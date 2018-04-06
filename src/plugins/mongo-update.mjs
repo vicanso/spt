@@ -44,5 +44,4 @@ export default function update(schema, options = {}) {
     );
     next();
   });
-
 }
