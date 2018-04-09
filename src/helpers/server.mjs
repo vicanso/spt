@@ -8,6 +8,7 @@ import methodoverride from 'koa-methodoverride';
 import restVersion from 'koa-rest-version';
 import shortid from 'shortid';
 import Timing from 'supertiming';
+import helmet from 'koa-helmet';
 
 import * as config from '../config';
 import middlewares from '../middlewares';
@@ -22,6 +23,7 @@ export default function createServer() {
 
   middlewares.session.init(app);
 
+  app.use(helmet());
   // 初始化请求的相关参数
   app.use((ctx, next) => {
     const id = ctx.get('X-Request-Id') || shortid();
