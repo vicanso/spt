@@ -29,6 +29,7 @@ function initModels(conn) {
       getters: true,
     });
     schema.on('stats', data => {
+      console.info(`mongodb stats:${stringify(data)}`);
       const keys = ['collection', 'op'];
       const spdy = _.sortedIndex([100, 300, 1000, 3000], data.use);
       const fields = _.omit(data, keys);

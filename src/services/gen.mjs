@@ -70,6 +70,22 @@ function findByIdAndUpdate(collection, id, data) {
 }
 
 /**
+ * 通过ID查找数据后再更新
+ * @param {String} collection mongodb collection
+ * @param {ObjectId} id  mongodb id
+ * @param {Object} data 要更新的数据
+ */
+function findByIdThenUpdate(collection, id, data) {
+  return findOneThenUpdate(
+    collection,
+    {
+      _id: id,
+    },
+    data,
+  );
+}
+
+/**
  * 查找一条记录
  *
  * @param {String} collection mongodb collection
@@ -113,6 +129,7 @@ export default function gen(collection) {
     findById,
     count,
     findOneThenUpdate,
+    findByIdThenUpdate,
   };
   const wrapper = {};
   _.forEach(fns, (fn, name) => {

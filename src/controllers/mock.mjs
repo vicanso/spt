@@ -207,11 +207,6 @@ export async function update(ctx) {
     disabled: schema.disabled(),
   });
   const id = Joi.attempt(ctx.params.id, Joi.objectId());
-  await mockService.findOneThenUpdate(
-    {
-      _id: id,
-    },
-    data,
-  );
+  await mockService.findByIdThenUpdate(id, data);
   ctx.body = null;
 }
