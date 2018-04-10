@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 import {isDevelopment} from '../helpers/utils';
-import mongoUpdate from '../plugins/mongo-update';
 
 const {Schema} = mongoose;
 
@@ -31,9 +30,6 @@ export default function init() {
   const s = new Schema(schema, {
     timestamps: true,
     autoIndex: isDevelopment(),
-  });
-  mongoUpdate(s, {
-    collection: 'setting',
   });
   return {
     name,

@@ -3649,9 +3649,13 @@ mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
 
-mongoose-stats@^1.0.0:
+mongoose-save4update@^1.0.0:
   version "1.0.0"
-  resolved "https://registry.yarnpkg.com/mongoose-stats/-/mongoose-stats-1.0.0.tgz#26e84a0f652c93f6cd9891bce382e47af4e2f2d1"
+  resolved "https://registry.yarnpkg.com/mongoose-save4update/-/mongoose-save4update-1.0.0.tgz#830bfadaf143622c8cb5679178412a8efd8b5ada"
+
+mongoose-stats@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/mongoose-stats/-/mongoose-stats-1.0.1.tgz#886106fc996bcd9a47e21178e7c6e3ac9cbd673a"
 
 mongoose@^5.0.3:
   version "5.0.14"

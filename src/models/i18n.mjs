@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 import {isDevelopment} from '../helpers/utils';
-import mongoUpdate from '../plugins/mongo-update';
 
 const {Schema} = mongoose;
 
@@ -58,9 +57,6 @@ export default function init() {
       unique: true,
     },
   );
-  mongoUpdate(s, {
-    collection: 'i18n',
-  });
   return {
     name,
     schema: s,

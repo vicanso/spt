@@ -2,6 +2,7 @@ import _ from 'lodash';
 import bluebird from 'bluebird';
 import mongoose from 'mongoose';
 import stats from 'mongoose-stats';
+import save4update from 'mongoose-save4update';
 
 import * as config from '../config';
 import models from '../models';
@@ -21,12 +22,19 @@ function initModels(conn) {
     schema.plugin(stats, {
       collection: name,
     });
-    conn.model(name, schema);
+    schema.plugin(save4update, {
+      collection: name,
+    });
     schema.set('toObject', {
       getters: true,
     });
     schema.set('toJSON', {
       getters: true,
+    });
+    schema.on('save4update', (data, doc) => {
+      // eslint-disable-next-line
+      const id = doc._id;
+      console.info(`mongo save for update:${id}-${stringify(data)}`);
     });
     schema.on('stats', data => {
       console.info(`mongodb stats:${stringify(data)}`);
@@ -49,6 +57,7 @@ function initModels(conn) {
         ),
       );
     });
+    conn.model(name, schema);
   });
 }
 
