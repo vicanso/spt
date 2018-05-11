@@ -12,18 +12,34 @@ import {
 export default {
   data() {
     return {
-      form: {},
+      form: {
+        begin: Date.now() - (24 * 3600 * 1000),
+        end: Date.now(),
+        pageSize: 5,
+        currentPage: 1,
+      },
       categories: null,
       trackers: null,
+      showPagination: false,
     };
   },
   methods: {
+    handleSizeChange(v) {
+      this.form.pageSize = v;
+      this.form.currentPage = 1;
+      this.search();
+    },
+    handleCurrentChange() {
+      this.search();
+    },
     async search() {
       const {
         category,
         account,
         begin,
         end,
+        pageSize,
+        currentPage,
       } = this.form;
       const url = INFLUX_RECORDS.replace(':measurement', 'userTracker');
       if (!category && !account) {
@@ -52,18 +68,31 @@ export default {
         if (end) {
           params.end = new Date(end).toISOString();
         }
+        params.limit = pageSize;
+        params.offset = (currentPage - 1) * pageSize;
         const res = await request.get(url, {
           params,
         });
+        const convert = (item, key) => {
+          if (item[key]) {
+            const value = JSON.parse(item[key]);
+            item[key] = JSON.stringify(value, null, 2);
+          }
+        }
         this.trackers = _.map(res.data.trackers, (item) => {
-          const params = JSON.parse(item.params);
-          item.params = JSON.stringify(params, null, 2);
+          _.forEach(['params', 'query', 'form', 'body'], key => convert(item, key));
           item.date = getDate(item.time);
           return item;
         })
       } catch (err) {
         this.$error(err);
       } finally {
+        const size = _.get(this, 'trackers.length');
+        if (size || currentPage > 1) {
+          this.showPagination = true;
+        } else {
+          this.showPagination = false;
+        }
         close();
       }
     },

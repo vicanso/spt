@@ -58,37 +58,62 @@
     v-if='trackers && trackers.length === 0'
   ) No result found. 
   el-table.mtop10(
-    v-else-if='trackers'
     :data="trackers"
+    style="width:100%"
+    v-else-if='trackers'
+    stripe
   )
+    el-table-column(
+      prop="account"
+      label="Account"
+      width="80"
+    )
     el-table-column(
       prop="category"
       label="Category"
       width="100"
     )
     el-table-column(
-      prop="account"
-      label="Account"
-      width="100"
-    )
-    el-table-column(
-      prop="ip"
-      label="IP"
-      width="150"
-    )
-    el-table-column(
-      prop="params"
-      label="Params"
-    )
-      template(
-        slot-scope="scope"
-      )
-        pre {{scope.row.params}}
-    el-table-column(
       prop="result"
       label="Result"
       width="80"
     )
+    el-table-column(
+      prop="body"
+      label="Body"
+      width="400"
+    )
+      template(
+        slot-scope="scope"
+      )
+        pre.font12 {{scope.row.body}}
+    el-table-column(
+      prop="form"
+      label="Form"
+      width="200"
+    )
+      template(
+        slot-scope="scope"
+      )
+        pre.font12 {{scope.row.form}}
+    el-table-column(
+      prop="params"
+      label="Params"
+      width="200"
+    )
+      template(
+        slot-scope="scope"
+      )
+        pre.font12 {{scope.row.params}}
+    el-table-column(
+      prop="query"
+      label="Query"
+      width="200"
+    )
+      template(
+        slot-scope="scope"
+      )
+        pre.font12 {{scope.row.query}}
     el-table-column(
       prop="use"
       label="Use"
@@ -99,7 +124,14 @@
       label="Date"
       width="160"
     )
-
+  el-pagination(
+    v-if="showPagination"
+    :page-size.sync="form.pageSize"
+    :current-page.sync="form.currentPage"
+    layout="sizes, prev, next, jumper"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+  )
 </template>
 <script src="./tracker.js"></script>
 <style lang="sass" scoped>
@@ -113,6 +145,8 @@
   width: 140px
 .datetimePicker
   width: 165px
+pre
+  overflow: auto
 </style>
 
 

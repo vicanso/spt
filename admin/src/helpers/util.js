@@ -10,9 +10,11 @@ export function getErrorMessage(err) {
   if (err && err.response) {
     const {data, headers} = err.response;
     const id = headers['x-response-id'];
-    // eslint-disable-next-line
-    const code = data.code.replace(`${app}-`, '');
-    message = `${data.message}(${code}) [${id}]`;
+    if (data.code) {
+      // eslint-disable-next-line
+      const code = data.code.replace(`${app}-`, '');
+      message = `${data.message}(${code}) [${id}]`;
+    }
   }
   if (_.isError(message)) {
     message = message.message;

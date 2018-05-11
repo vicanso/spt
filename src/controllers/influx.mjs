@@ -16,6 +16,15 @@ const schema = {
     Joi.string()
       .max(32)
       .default('-1d'),
+  offset: () =>
+    Joi.number()
+      .integer()
+      .min(0)
+      .default(0),
+  order: () =>
+    Joi.string()
+      .valid(['asc', 'desc'])
+      .default('desc'),
   end: () => Joi.string().max(32),
   conditions: () => Joi.string().max(200),
 };
@@ -50,12 +59,17 @@ export async function getSeries(ctx) {
 // 查询measurement符合条件的数据
 export async function list(ctx) {
   const measurement = Joi.attempt(ctx.params.measurement, schema.measurement());
-  const {limit, start, end, conditions} = Joi.validate(ctx.query, {
-    limit: schema.limit(),
-    start: schema.start(),
-    end: schema.end(),
-    conditions: schema.conditions(),
-  });
+  const {limit, start, end, offset, conditions, order} = Joi.validate(
+    ctx.query,
+    {
+      limit: schema.limit(),
+      start: schema.start(),
+      end: schema.end(),
+      offset: schema.offset(),
+      conditions: schema.conditions(),
+      order: schema.order(),
+    },
+  );
   const client = influx.getClient();
   if (!client) {
     throw errors.get('common.influxNotInit');
@@ -67,6 +81,10 @@ export async function list(ctx) {
   if (end) {
     ql.end = end;
   }
+  if (offset) {
+    ql.offset = offset;
+  }
+  ql.order = order;
   if (conditions) {
     const conds = JSON.parse(conditions);
     _.forEach(conds, (v, k) => ql.condition(k, v));

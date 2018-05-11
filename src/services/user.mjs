@@ -59,7 +59,7 @@ export async function login({account, password, token}) {
   const incorrectError = errors.get('user.idPwdIncorrect');
   const doc = await userService.findOne({
     account,
-  });
+  }).lean();
   if (!doc) {
     throw incorrectError;
   }
