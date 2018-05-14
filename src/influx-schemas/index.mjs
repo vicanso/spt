@@ -102,7 +102,6 @@ export default {
       form: 's',
       body: 's',
       use: 'i',
-      message: 's',
     },
     tags: {
       category: '*',

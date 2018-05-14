@@ -18,7 +18,7 @@ export const httpLogFormat =
 
 export const trackCookie = 'jt';
 
-export const appUrlPrefix = '/api';
+export const appUrlPrefix = process.env.APP_PREFIX || '/api';
 
 export const ins = shortid();
 
@@ -27,7 +27,7 @@ export const logger = process.env.LOG;
 
 // mongodb connection uri
 export const mongoUri =
-  process.env.MONGO || 'mongodb://127.0.0.1/spt?connectTimeoutMS=300000';
+  process.env.MONGO || 'mongodb://127.0.0.1/spt?connectTimeoutMS=10000';
 
 // redis connection uri
 export const redisUri = process.env.REDIS || 'redis://127.0.0.1/';

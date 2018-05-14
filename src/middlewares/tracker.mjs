@@ -69,7 +69,10 @@ export default category =>
         type = 'success';
       }
     } catch (err) {
-      data.message = err.message;
+      data.body = {
+        message: err.message,
+        status: ctx.status,
+      };
       throw err;
     } finally {
       resultLog(Date.now() - start, type);

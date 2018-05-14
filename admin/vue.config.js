@@ -1,4 +1,7 @@
+const webpack = require('webpack');
+
 const env = process.env.NODE_ENV || 'development';
+const appPrefix = process.env.APP_PREFIX || '/api';
 
 const output = {};
 
@@ -16,10 +19,10 @@ module.exports = {
   },
   configureWebpack: {
     output,
-    // plugins: [
-    //   new webpack.DefinePlugin({
-    //     ENV: JSON.stringify(env),
-    //   }),
-    // ],
+    plugins: [
+      new webpack.DefinePlugin({
+        APP_PREFIX: JSON.stringify(appPrefix),
+      }),
+    ],
   },
 };
