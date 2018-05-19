@@ -11,6 +11,7 @@ import _ from 'lodash';
 import * as config from '../config';
 import * as globals from '../helpers/globals';
 import * as mongo from '../helpers/mongo';
+import logger from '../helpers/logger';
 
 const readFile = util.promisify(fs.readFile);
 
@@ -41,7 +42,7 @@ async function getVersion() {
  */
 export function pause(ctx) {
   globals.pause();
-  console.info('pause application');
+  logger.info('pause application');
   ctx.body = null;
 }
 
@@ -59,7 +60,7 @@ export function pause(ctx) {
  */
 export function resume(ctx) {
   globals.start();
-  console.info('resume application');
+  logger.info('resume application');
   ctx.body = null;
 }
 

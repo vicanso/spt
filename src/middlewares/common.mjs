@@ -8,6 +8,7 @@ import url from 'url';
 import errors from '../errors';
 import influx from '../helpers/influx';
 import * as utils from '../helpers/utils';
+import logger from '../helpers/logger';
 
 /**
  * 对于url中的querystring检验，如果有querystring则校验不通过，返回出错。
@@ -31,7 +32,7 @@ const noQuery = () => (ctx, next) => {
  */
 const deprecate = hint => (ctx, next) => {
   ctx.set('Warning', hint);
-  console.warn(`deprecate - ${ctx.url} is still used.`);
+  logger.warn(`deprecate - ${ctx.url} is still used.`);
   const urlInfo = url.parse(ctx.url);
   influx.write('deprecate', {
     path: urlInfo.pathname,

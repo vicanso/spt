@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import errors from '../errors';
 import request from '../helpers/request';
+import logger from '../helpers/logger';
 
 function byIP(ip) {
   const url = 'http://ip.taobao.com/service/getIpInfo.php';
@@ -23,7 +24,7 @@ function byIP(ip) {
         });
         return result;
       } catch (err) {
-        console.error(`parse ip info fail, ${err.message}`);
+        logger.error(`parse ip info fail, ${err.message}`);
         throw errors.get('common.ipLocationFail');
       }
     });

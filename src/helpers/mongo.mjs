@@ -8,6 +8,7 @@ import * as config from '../config';
 import models from '../models';
 import influx from '../helpers/influx';
 import stringify from '../helpers/stringify';
+import logger from '../helpers/logger';
 
 mongoose.Promise = bluebird;
 
@@ -34,10 +35,10 @@ function initModels(conn) {
     schema.on('save4update', (data, doc) => {
       // eslint-disable-next-line
       const id = doc._id;
-      console.info(`mongo save for update:${id}-${stringify(data)}`);
+      logger.info(`mongo save for update:${id}-${stringify(data)}`);
     });
     schema.on('stats', data => {
-      console.info(`mongodb stats:${stringify(data)}`);
+      logger.debug(`mongodb stats:${stringify(data)}`);
       const keys = ['collection', 'op'];
       const spdy = _.sortedIndex([100, 300, 1000, 3000], data.use);
       const fields = _.omit(data, keys);
@@ -74,24 +75,24 @@ function initClient(uri) {
   const client = mongoose.createConnection(uri);
   const maskUri = uri.replace(/\/\/\S+:\S+@/, '//***:***@');
   client.on('connected', () => {
-    console.info(`${maskUri} connected`);
+    logger.info(`${maskUri} connected`);
   });
   client.on('disconnected', () => {
     /* istanbul ignore next */
-    console.alert(`${maskUri} disconnected`);
+    logger.alert(`${maskUri} disconnected`);
   });
   client.on(
     'reconnected',
     _.debounce(() => {
       /* istanbul ignore next */
-      console.info(`${maskUri} reconnected`);
+      logger.info(`${maskUri} reconnected`);
     }, 3000),
   );
   client.on('connecting', () => {
     /* istanbul ignore next */
-    console.info(`${maskUri} connecting`);
+    logger.info(`${maskUri} connecting`);
   });
-  client.on('error', err => console.alert(`${maskUri} error, %s`, err));
+  client.on('error', err => logger.alert(`${maskUri} error, %s`, err));
   initModels(client);
   return client;
 }

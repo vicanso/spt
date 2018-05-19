@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import stringify from '../helpers/stringify';
+import logger from '../helpers/logger';
 
 /**
  * HTTP Request stats
@@ -14,9 +15,9 @@ export default function httpStats(req) {
     stats.use = Date.now() - stats.startedAt;
     delete stats.startedAt;
     if (stats.error) {
-      console.error(stringify(stats));
+      logger.error(stringify(stats));
     } else {
-      console.info(stringify(stats));
+      logger.info(stringify(stats));
     }
     req.emit('stats', stats);
   });

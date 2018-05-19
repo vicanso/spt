@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import stringify from '../helpers/stringify';
+import logger from '../helpers/logger';
 
 /**
  * @swagger
@@ -12,7 +13,7 @@ import stringify from '../helpers/stringify';
  */
 export function add(ctx) {
   _.forEach(ctx.request.body, item => {
-    console.info(`browser-ajax ${stringify(item)}`);
+    logger.info(`browser-ajax ${stringify(item)}`);
   });
   ctx.status = 201;
 }
@@ -28,7 +29,7 @@ export function add(ctx) {
  */
 export function exception(ctx) {
   _.forEach(ctx.request.body, item => {
-    console.error(`browser-exception ${stringify(item)}`);
+    logger.error(`browser-exception ${stringify(item)}`);
   });
   ctx.status = 201;
 }
@@ -44,7 +45,7 @@ export function exception(ctx) {
  */
 export function route(ctx) {
   _.forEach(ctx.request.body, item => {
-    console.info(`route ${stringify(item)}`);
+    logger.info(`route ${stringify(item)}`);
   });
   ctx.status = 201;
 }

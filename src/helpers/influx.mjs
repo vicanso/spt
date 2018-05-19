@@ -6,6 +6,7 @@ import schemas from '../influx-schemas';
 import debug from './debug';
 import {getParam} from './utils';
 import * as config from '../config';
+import logger from '../helpers/logger';
 
 let client = null;
 const maxQueueLength = 100;
@@ -20,8 +21,8 @@ function flush() {
   }
   client
     .syncWrite()
-    .then(() => console.info(`influxdb write ${count} records sucess`))
-    .catch(err => console.error(`influxdb write fail, ${err.message}`));
+    .then(() => logger.info(`influxdb write ${count} records sucess`))
+    .catch(err => logger.error(`influxdb write fail, ${err.message}`));
 }
 
 function init(url) {
@@ -49,10 +50,10 @@ function init(url) {
   });
 
   client.on('invalid-fields', data => {
-    console.error(`influx invalid fields:${stringify(data)}`);
+    logger.error(`influx invalid fields:${stringify(data)}`);
   });
   client.on('invalid-tags', data => {
-    console.error(`influx invalid tags:${stringify(data)}`);
+    logger.error(`influx invalid tags:${stringify(data)}`);
   });
 }
 

@@ -6,6 +6,7 @@ import errors from '../errors';
 import location from './location';
 import influx from '../helpers/influx';
 import {isProduction} from '../helpers/utils';
+import logger from '../helpers/logger';
 
 const userService = genService('User');
 const loginService = genService('Login');
@@ -40,14 +41,14 @@ export async function addLoginRecord(data) {
       influx.write('userLogin', _.pick(data, ['ip', 'account']), locationInfo);
       _.extend(data, locationInfo);
     } catch (err) {
-      console.error(`get location of ${ip} fail, ${err.message}`);
+      logger.error(`get location of ${ip} fail, ${err.message}`);
     }
   }
   try {
     const doc = await loginService.add(data);
     return doc;
   } catch (err) {
-    console.error(
+    logger.error(
       `add login record fail, account:${data.account} err:${err.message}`,
     );
   }

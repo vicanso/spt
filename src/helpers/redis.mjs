@@ -4,6 +4,7 @@ import url from 'url';
 import querystring from 'querystring';
 
 import * as config from '../config';
+import logger from '../helpers/logger';
 
 // 获取redis client
 function getRedisClient(uri) {
@@ -46,9 +47,9 @@ const client = getRedisClient(config.redisUri);
 const delayLog = _.throttle((message, type) => {
   const maskUri = config.redisUri.replace(/:\S+@/, '//:***@');
   if (type === 'error') {
-    console.alert(`${maskUri} error, ${message})`);
+    logger.alert(`${maskUri} error, ${message})`);
   } else {
-    console.info(`${maskUri} ${message}`);
+    logger.info(`${maskUri} ${message}`);
   }
 }, 3000);
 

@@ -6,10 +6,11 @@
 import _ from 'lodash';
 
 import stringify from '../helpers/stringify';
+import logger from '../helpers/logger';
 
 export default () => async (ctx, next) => {
   await next();
   if (ctx.state.logResponse && ctx.body && _.isObject(ctx.body)) {
-    console.info(`response: ${stringify(ctx.body)}`);
+    logger.info(`response: ${stringify(ctx.body)}`);
   }
 };

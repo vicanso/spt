@@ -8,6 +8,7 @@ import influx from './helpers/influx';
 import dns from './helpers/dns';
 import createServer from './helpers/server';
 import * as globals from './helpers/globals';
+import logger from './helpers/logger';
 import './schedules';
 
 function mongodbReady() {
@@ -34,5 +35,5 @@ Promise.all([mongodbReady(), redisReady(), settingService.updateAppSettings()])
     globals.start();
   })
   .catch(err => {
-    console.error(`the application isn't ready, ${err.message}`);
+    logger.error(`the application isn't ready, ${err.message}`);
   });

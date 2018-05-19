@@ -14,6 +14,7 @@ import * as config from '../config';
 import middlewares from '../middlewares';
 import router from '../router';
 import {isDevelopment} from '../helpers/utils';
+import logger from '../helpers/logger';
 
 export default function createServer() {
   const app = new Koa();
@@ -107,11 +108,11 @@ export default function createServer() {
   const server = app.listen(port, err => {
     /* istanbul ignore if */
     if (err) {
-      console.error(
+      logger.error(
         `server listen on http://127.0.0.1:${port}/ fail, err:${err.message}`,
       );
     } else {
-      console.info(`server listen on http://127.0.0.1:${port}/`);
+      logger.info(`server listen on http://127.0.0.1:${port}/`);
     }
   });
   return server;

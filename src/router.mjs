@@ -5,6 +5,7 @@ import debug from './helpers/debug';
 import middlewares from './middlewares';
 import routes from './routes';
 import controllers from './controllers';
+import logger from './helpers/logger';
 
 function getRouter(descList) {
   return router.parse(descList);
@@ -23,7 +24,7 @@ function addToRouter(category, fns) {
       addToRouter(`${category}.${k}`, v);
     } else {
       /* istanbul ignore next */
-      console.error(`${category}.${k} is invalid.`);
+      logger.error(`${category}.${k} is invalid.`);
     }
   });
 }

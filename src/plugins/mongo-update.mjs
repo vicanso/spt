@@ -5,6 +5,7 @@
 import _ from 'lodash';
 
 import stringify from '../helpers/stringify';
+import logger from '../helpers/logger';
 
 const defaultIgnoreKeys = ['updatedAt'];
 // TODO 是否增加findAndUpdate的处理
@@ -37,7 +38,7 @@ export default function update(schema, options = {}) {
       updated[k] = current[k];
       original[k] = originalData[k];
     });
-    console.info(
+    logger.info(
       `mongo update log ${collection}-${id} is updated:${stringify(
         updated,
       )} original:${stringify(original)}`,

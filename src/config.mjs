@@ -1,9 +1,10 @@
 import shortid from 'shortid';
+import config from 'config';
 
 import pkg from '../package';
 import expose from './expose';
 
-export const port = Number.parseInt(process.env.PORT, 10) || 5018;
+export const port = Number.parseInt(process.env.PORT, 10) || config.get('port');
 
 export const env = process.env.NODE_ENV || 'development';
 
@@ -13,12 +14,13 @@ export const version = pkg.version;
 export const app = pkg.name;
 
 // eslint-disable-next-line
-export const httpLogFormat =
-  ':method :url :status :length :response-time ms ":referrer"';
+export const httpLogFormat = config.get('log.http');
+
+export const logLevel = process.env.LOG_LEVEL || config.get('log.level');
 
 export const trackCookie = 'jt';
 
-export const appUrlPrefix = process.env.APP_PREFIX || '/api';
+export const appUrlPrefix = process.env.APP_PREFIX || config.get('appPrefix');
 
 export const ins = shortid();
 
@@ -27,10 +29,10 @@ export const logger = process.env.LOG;
 
 // mongodb connection uri
 export const mongoUri =
-  process.env.MONGO || 'mongodb://127.0.0.1/spt?connectTimeoutMS=10000';
+  process.env.MONGO || config.get('mongo');
 
 // redis connection uri
-export const redisUri = process.env.REDIS || 'redis://127.0.0.1/';
+export const redisUri = process.env.REDIS || config.get('redis');
 
 export const appPath = expose.dirname;
 
@@ -46,3 +48,8 @@ export const connectLimitOptions = {
   high: 500,
   interval: 5000,
 };
+
+// get the config
+export function get(key) {
+  return config.get(key);
+}

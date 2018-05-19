@@ -5,13 +5,14 @@ import _ from 'lodash';
 
 import influx from '../helpers/influx';
 import stringify from '../helpers/stringify';
+import logger from '../helpers/logger';
 
 /**
  * 记录用户的行为日志到influxdb中
  * @param  {Object} data 用户行为日志数据
  */
 function logUserTracker(data) {
-  console.info(`user tracker ${stringify(data)}`);
+  logger.info(`user tracker ${stringify(data)}`);
   const tags = 'category result'.split(' ');
   influx.write('userTracker', _.omit(data, tags), _.pick(data, tags));
 }

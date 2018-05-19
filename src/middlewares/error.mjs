@@ -8,6 +8,7 @@ import url from 'url';
 import {env} from '../config';
 import influx from '../helpers/influx';
 import stringify from '../helpers/stringify';
+import logger from '../helpers/logger';
 
 /**
  * HTTP请求出错中间件处理，根据出错的Error对象，记录出错的url,code,userToken,
@@ -66,7 +67,7 @@ export default () => (ctx, next) =>
 
     logList.push(stringify(data));
 
-    console.error(logList.join(' '));
+    logger.error(logList.join(' '));
 
     const status = Number.parseInt(error.status || err.statusCode, 10);
     // eslint-disable-next-line

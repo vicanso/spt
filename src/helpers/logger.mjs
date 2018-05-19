@@ -1,27 +1,81 @@
-import Logger from 'timtam-logger';
-import als from 'async-local-storage';
+import winston from 'winston';
+import dgram from 'dgram';
+import _ from 'lodash';
 
-import * as config from '../config';
+import {isDevelopment} from '../helpers/utils';
 
-if (config.logger) {
-  const logger = new Logger({
-    app: config.app,
-  });
-  logger.before(() => als.get('trackId'));
-  logger.before(() => als.get('account'));
-  logger.before(() => als.get('id'));
-  logger.wrap(console);
-  'emerg alert crit'.split(' ').forEach(event => {
-    logger.on(event, message => {
-      console.dir(message);
-      // TODO 发送email警报
+
+import {
+  logLevel,
+  get,
+} from '../config';
+
+const {
+  createLogger,
+  format,
+  transports,
+  Transport,
+} = winston;
+const { combine, timestamp} = format;
+
+const logConfig = get('log');
+
+class UDPTransport extends Transport {
+  constructor(opts = {}) {
+    super(opts);
+    this.options = {
+      prefix: Buffer.from(`${opts.prefix || ''}`),
+      port: opts.port || 7349, 
+      host: opts.host || '127.0.0.1',
+    };
+    this.client = dgram.createSocket('udp4');
+  }
+  log(info, cb) {
+    const {
+      client,
+      options,
+    } = this;
+    const {
+      prefix,
+      port,
+      host,
+    } = options;
+    let message = info;
+    if (_.isObject(info)) {
+      message = JSON.stringify(info);
+    }
+    const buf = Buffer.concat([prefix, Buffer.from(message)]);
+    setImmediate(() => {
+      client.send(buf, 0, buf.length, port, host);
     });
-  });
-  logger.add(config.logger);
-} else {
-  console.emerg = console.error;
-  console.alert = console.error;
-  console.crit = console.error;
+    cb();
+  }
 }
 
-export default console;
+const trans = [];
+let customFormat = null;
+if (isDevelopment()) {
+  trans.push(new transports.Console());
+  customFormat = combine(
+    format.colorize(),
+    format.simple(),
+  );
+} else {
+  customFormat = combine(
+    timestamp(),
+    format.json(),
+  );
+}
+
+// 设置UDP日志收集
+if (logConfig.udp) {
+  trans.push(new UDPTransport(logConfig.udp))
+}
+
+const logger = createLogger({
+  level: logLevel,
+  format: customFormat,
+  transports: trans,
+});
+
+export default logger;
