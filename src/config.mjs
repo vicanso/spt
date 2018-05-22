@@ -28,8 +28,7 @@ export const ins = shortid();
 export const logger = process.env.LOG;
 
 // mongodb connection uri
-export const mongoUri =
-  process.env.MONGO || config.get('mongo');
+export const mongoUri = process.env.MONGO || config.get('mongo');
 
 // redis connection uri
 export const redisUri = process.env.REDIS || config.get('redis');

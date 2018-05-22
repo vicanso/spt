@@ -58,9 +58,11 @@ export async function addLoginRecord(data) {
 // 校验用户密码，获取用户信息
 export async function login({account, password, token}) {
   const incorrectError = errors.get('user.idPwdIncorrect');
-  const doc = await userService.findOne({
-    account,
-  }).lean();
+  const doc = await userService
+    .findOne({
+      account,
+    })
+    .lean();
   if (!doc) {
     throw incorrectError;
   }

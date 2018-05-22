@@ -1,3 +1,7 @@
+import * as config from '../config';
+
+const adminRoute = `${config.get('adminPath')}/`;
+
 export default [
   ['PUT', '/sys/exit', 'm.admin & c.system.exit'],
   ['PUT', '/sys/pause', 'm.admin & c.system.pause'],
@@ -11,5 +15,5 @@ export default [
   ['GET', '/sys/status', 'm.noQuery & c.system.status'],
   ['GET', '/sys/stats', 'm.noQuery & c.system.stats'],
   ['GET', '/sys/apis', 'm.noQuery & c.system.apis'],
-  ['GET', '/admin/', 'm.noQuery & c.system.adminIndex'],
+  ['GET', adminRoute, 'm.noQuery & c.system.adminIndex'],
 ];

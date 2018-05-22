@@ -71,8 +71,7 @@ export default function createServer() {
     koaLog.morgan.token('account', ctx => ctx.state.account || 'anonymous');
     app.use(koaLog(config.httpLogFormat));
   }
-
-  app.use(middlewares.admin('/admin'));
+  app.use(middlewares.admin(config.get('adminPath')));
 
   // http stats
   app.use(middlewares.httpStats());

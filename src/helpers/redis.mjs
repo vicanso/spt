@@ -8,10 +8,10 @@ import logger from '../helpers/logger';
 
 // 获取redis client
 function getRedisClient(uri) {
-  if (uri.indexOf('sentinels://') !== 0)  {
+  if (uri.indexOf('sentinels://') !== 0) {
     return new Redis(uri, {
       keyPrefix: `${config.app}:`,
-    }); 
+    });
   }
   const options = {};
   const pwdReg = /sentinels:\/\/:(\S+)@/;
@@ -24,7 +24,7 @@ function getRedisClient(uri) {
   const hostRegResult = hostsReg.exec(uri);
   const hosts = _.get(hostRegResult, '[2]');
   if (hosts) {
-    options.sentinels = _.map(hosts.split(','), (item) => {
+    options.sentinels = _.map(hosts.split(','), item => {
       const urlInfo = url.parse(`http://${item}`);
       const opt = {
         host: urlInfo.hostname,
