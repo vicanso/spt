@@ -42,6 +42,10 @@ const schema = {
     Joi.string()
       .trim()
       .max(100),
+  track: () =>
+    Joi.string()
+      .trim()
+      .max(100),
   url: () =>
     Joi.string()
       .trim()
@@ -115,6 +119,7 @@ const schema = {
 export async function add(ctx) {
   const data = Joi.validate(ctx.request.body, {
     account: schema.account(),
+    track: schema.track(),
     url: schema.url().required(),
     status: schema.status(),
     response: schema.response(),
@@ -200,6 +205,7 @@ export async function get(ctx) {
 export async function update(ctx) {
   const data = Joi.validate(ctx.request.body, {
     account: schema.account(),
+    track: schema.track(),
     url: schema.url(),
     status: schema.status(),
     response: schema.response(),

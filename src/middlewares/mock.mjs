@@ -8,7 +8,6 @@ import mockService from '../services/mock';
 
 import * as config from '../config';
 import {getSession} from '../services/cache';
-import {isNoCache} from '../helpers/utils';
 
 let isStartUpdate = false;
 let mockDict = {};
@@ -29,7 +28,7 @@ async function updateMock() {
     if (!result[url]) {
       result[url] = [];
     }
-    result[url].push(_.pick(item, ['status', 'response', 'account']));
+    result[url].push(item);
   });
   _.forEach(result, (items, url) => {
     result[url] = _.sortBy(items, item => {
@@ -51,39 +50,33 @@ export default function getMockMiddleware() {
     isStartUpdate = true;
   }
   return async function mockMiddleware(ctx, next) {
-    // eslint-disable-next-line
-    const urlInfo = ctx.req._parsedUrl;
-    const mocks = mockDict[urlInfo.pathname];
+    const mocks = mockDict[ctx.url];
     if (!mocks) {
       return next();
     }
-    let mock = null;
-    const lastMock = _.last(mocks);
-    // 由于已根据是否配置账号排序
-    // 如果最后一个mock没有定义账号，设置为默认
-    if (!lastMock.account || lastMock.account === '*') {
-      mock = lastMock;
-    }
-    let hasMockAccount = false;
-    _.forEach(mocks, item => {
+    const sortMocks = _.sortBy(mocks, item => {
+      if (item.track) {
+        return 1;
+      }
       if (item.account) {
-        hasMockAccount = true;
+        return 2;
       }
+      return 4;
     });
-    // 如果有定义账号信息，则从session中取信息匹配
-    if (hasMockAccount) {
-      // 如果定义了账号信息，表示该mock是需要获取 user/session
-      if (!isNoCache(ctx)) {
-        return next();
+    const key = ctx.cookies.get(config.session.key);
+    const userInfo = await getSession(key);
+    const currentAccount = _.get(userInfo, 'user.account');
+    const trackValue = ctx.cookies.get(config.trackCookie);
+    const mock = _.find(sortMocks, item => {
+      const {track, account} = item;
+      if (track) {
+        return track === trackValue;
       }
-      const key = ctx.cookies.get(config.session.key);
-      const userInfo = await getSession(key);
-      const currentAccount = _.get(userInfo, 'user.account');
-      const found = _.find(mocks, item => item.account === currentAccount);
-      if (found) {
-        mock = found;
+      if (account) {
+        return account === currentAccount;
       }
-    }
+      return true;
+    });
     if (!mock) {
       return next();
     }

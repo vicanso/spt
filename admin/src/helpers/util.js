@@ -64,8 +64,12 @@ export function diff(original, current, keys) {
   const changeKeys = jsonDiff.diff(original, current);
   const diffKeys = keys || _.keys(current);
   const result = {};
+  if (!changeKeys) {
+    return result;
+  }
   _.forEach(diffKeys, key => {
-    if (!changeKeys[key]) {
+    const addKey = `${key}__added`;
+    if (!changeKeys[key] && !changeKeys[addKey]) {
       return;
     }
     result[key] = current[key];

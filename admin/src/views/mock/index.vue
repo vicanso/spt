@@ -15,6 +15,11 @@
           width="100"
         ) 
         el-table-column(
+          prop="track"
+          label="Track"
+          width="100"
+        )
+        el-table-column(
           prop="url"
           label="Url"
           width="150"
@@ -68,6 +73,13 @@
       )
         el-input(
           v-model="form.account"
+          autofocus
+        )
+      el-form-item(
+        label="Track"
+      )
+        el-input(
+          v-model="form.track"
           autofocus
         )
       el-form-item(

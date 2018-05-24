@@ -9,6 +9,7 @@ const name = 'Mock';
 
 const schema = {
   account: String,
+  track: String,
   url: {
     type: String,
     required: true,
@@ -38,6 +39,7 @@ export default function init() {
     {
       url: 1,
       account: 1,
+      track: 1,
     },
     {
       background: true,
