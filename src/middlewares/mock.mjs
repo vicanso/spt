@@ -32,11 +32,13 @@ async function updateMock() {
   });
   _.forEach(result, (items, url) => {
     result[url] = _.sortBy(items, item => {
-      const {account} = item;
-      if (!account || account === '*') {
-        return null;
+      if (item.track) {
+        return 1;
       }
-      return account;
+      if (item.account) {
+        return 2;
+      }
+      return 4;
     });
   });
   mockDict = result;
@@ -54,20 +56,11 @@ export default function getMockMiddleware() {
     if (!mocks) {
       return next();
     }
-    const sortMocks = _.sortBy(mocks, item => {
-      if (item.track) {
-        return 1;
-      }
-      if (item.account) {
-        return 2;
-      }
-      return 4;
-    });
     const key = ctx.cookies.get(config.session.key);
     const userInfo = await getSession(key);
     const currentAccount = _.get(userInfo, 'user.account');
     const trackValue = ctx.cookies.get(config.trackCookie);
-    const mock = _.find(sortMocks, item => {
+    const mock = _.find(mocks, item => {
       const {track, account} = item;
       if (track) {
         return track === trackValue;

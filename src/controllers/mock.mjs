@@ -204,8 +204,8 @@ export async function get(ctx) {
  */
 export async function update(ctx) {
   const data = Joi.validate(ctx.request.body, {
-    account: schema.account(),
-    track: schema.track(),
+    account: schema.account().allow(''),
+    track: schema.track().allow(''),
     url: schema.url(),
     status: schema.status(),
     response: schema.response(),
