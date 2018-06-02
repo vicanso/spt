@@ -2,7 +2,7 @@
  * 此模块主要是一些公共与业务无关的处理
  */
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 import util from 'util';
 import path from 'path';
 import fs from 'fs';
@@ -113,7 +113,7 @@ export function resume(ctx) {
 export async function status(ctx) {
   const version = await getVersion();
   const sceonds = Number.parseInt(process.uptime(), 10);
-  const uptime = moment(Date.now() - sceonds * 1000);
+  const uptime = dayjs(Date.now() - sceonds * 1000);
   ctx.setCache('10s');
   ctx.body = _.extend(
     {

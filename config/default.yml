@@ -11,3 +11,6 @@ mongo: mongodb://127.0.0.1/spt?connectTimeoutMS=10000
 # redis连接串
 redis: redis://127.0.0.1/
 adminPath: /admin
+cookieSigKeys:
+  - cuttle-fish
+  - tree.xie

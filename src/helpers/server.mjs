@@ -1,6 +1,5 @@
 import Koa from 'koa';
 import _ from 'lodash';
-import als from 'async-local-storage';
 import bodyparser from 'koa-bodyparser';
 import etag from 'koa-etag';
 import koaLog from 'koa-log';
@@ -20,7 +19,7 @@ export default function createServer() {
   const app = new Koa();
   // trust proxy
   app.proxy = true;
-  app.keys = ['cuttle-fish', 'tree.xie'];
+  app.keys = config.get('cookieSigKeys');
 
   middlewares.session.init(app);
 
@@ -34,12 +33,9 @@ export default function createServer() {
     delete ctx.query.lang;
     ctx.state.timing = timing;
     ctx.state.lang = lang;
+    ctx.state.id = id;
+    ctx.state.trackId = trackId;
     ctx.set('X-Response-Id', id);
-    // als设置的参数
-    als.set('timing', timing, true);
-    als.set('trackId', trackId, true);
-    als.set('id', id, true);
-    als.set('lang', lang, true);
     return next();
   });
 
@@ -88,7 +84,7 @@ export default function createServer() {
   app.use(methodoverride());
   app.use(bodyparser());
 
-  // 对处理号的处理
+  // 对版本号的处理
   app.use(
     restVersion({
       override: true,

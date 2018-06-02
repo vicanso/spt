@@ -3,7 +3,6 @@
  */
 
 import _ from 'lodash';
-import als from 'async-local-storage';
 import koaSession from 'koa-session';
 
 import * as config from '../config';
@@ -56,7 +55,6 @@ const normal = (ctx, next) => {
   return sessionMiddleware(ctx, () => {
     const use = Date.now() - startedAt;
     const account = _.get(ctx, 'session.user.account', 'unknown');
-    als.set('account', account, true);
     ctx.state.account = account;
     influx.write(
       'session',

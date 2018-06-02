@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import createError from 'http-errors';
-import als from 'async-local-storage';
 
 import commonErrors from './common';
 import userErrors from './user';
@@ -13,7 +12,7 @@ const errors = {
 
 // 根据key生成自定义error
 function get(key) {
-  const lang = als.get('lang') || 'en';
+  const lang = 'en';
   const item = _.get(errors, key);
   const err = new Error(item[lang] || 'Unknown error');
   return createError(item.status || 500, err, {

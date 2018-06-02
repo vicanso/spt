@@ -3,24 +3,14 @@ import _ from 'lodash';
 
 import influx from '../helpers/influx';
 import errors from '../errors';
+import commonSchema from '../helpers/common-schema';
 
 const schema = {
   measurement: () => Joi.string().valid(['userTracker']),
-  limit: () =>
-    Joi.number()
-      .integer()
-      .min(1)
-      .max(1000)
-      .default(100),
   start: () =>
     Joi.string()
       .max(32)
       .default('-1d'),
-  offset: () =>
-    Joi.number()
-      .integer()
-      .min(0)
-      .default(0),
   order: () =>
     Joi.string()
       .valid(['asc', 'desc'])
@@ -62,10 +52,10 @@ export async function list(ctx) {
   const {limit, start, end, offset, conditions, order} = Joi.validate(
     ctx.query,
     {
-      limit: schema.limit(),
+      limit: commonSchema.limit(),
       start: schema.start(),
       end: schema.end(),
-      offset: schema.offset(),
+      offset: commonSchema.offset(),
       conditions: schema.conditions(),
       order: schema.order(),
     },
