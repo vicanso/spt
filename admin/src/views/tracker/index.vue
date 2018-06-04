@@ -145,8 +145,6 @@
   width: 140px
 .datetimePicker
   width: 165px
-pre
-  overflow: auto
 </style>
 
 

@@ -107,6 +107,8 @@
 <style lang="sass" scoped>
 .settingPage
   padding: 10px
+  pre
+    overflow-x: auto
 .form
   width: 600px
   padding: 40px 20px 20px

@@ -130,6 +130,8 @@
 <style lang="sass" scoped>
 .mockPage
   padding: 10px
+  pre
+    overflow-x: auto
 .form
   width: 600px
   margin: auto
