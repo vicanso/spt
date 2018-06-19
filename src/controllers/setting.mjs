@@ -124,7 +124,7 @@ export async function add(ctx) {
 export async function list(ctx) {
   const items = await settingService.find({});
   ctx.body = {
-    list: items,
+    settings: items,
   };
 }
 

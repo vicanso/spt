@@ -3,6 +3,7 @@ import Register from '../views/register';
 import Login from '../views/login';
 import Mock from '../views/mock';
 import Tracker from '../views/tracker';
+import RouteLimiter from '../views/route-limiter';
 
 export default [
   {
@@ -29,5 +30,10 @@ export default [
     name: 'tracker',
     path: '/tracker',
     component: Tracker,
+  },
+  {
+    name: 'route-limiter',
+    path: '/route-limiter',
+    component: RouteLimiter,
   },
 ];

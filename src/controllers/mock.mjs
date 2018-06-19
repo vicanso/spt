@@ -155,7 +155,7 @@ export async function list(ctx) {
   const mocks = await mockService.find({});
   ctx.setCache('5s');
   ctx.body = {
-    list: _.sortBy(mocks, item => item.url),
+    mocks: _.sortBy(mocks, item => item.url),
   };
 }
 

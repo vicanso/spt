@@ -54,6 +54,7 @@ const logger = createLogger({
   level: logLevel,
   format: customFormat,
   transports: trans,
+  levels: winston.config.syslog.levels,
 });
 
 export default logger;

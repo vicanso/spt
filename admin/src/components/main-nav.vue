@@ -38,6 +38,10 @@ export default {
           route: 'mock',
         },
         {
+          name: 'Route Limiter',
+          route: 'route-limiter',
+        },
+        {
           name: 'Tracker',
           route: 'tracker',
         },

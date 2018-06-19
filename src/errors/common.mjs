@@ -85,8 +85,14 @@ export default {
   },
   influxNotInit: {
     code: 15,
-    en: "the influx isn't inited",
+    en: `the influx isn't inited`,
     ch: 'influx未初始化',
+    status: 500,
+  },
+  routeLimited: {
+    code: 16,
+    en: 'the function is limited',
+    ch: '此功能暂时限制使用',
     status: 500,
   },
 };

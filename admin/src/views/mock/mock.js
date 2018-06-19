@@ -22,7 +22,7 @@ export default {
       const close = this.$loading();
       try {
         const res = await request.get(MOCKS);
-        this.mocks = _.map(res.data.list, (item) => {
+        this.mocks = _.map(res.data.mocks, (item) => {
           // eslint-disable-next-line
           item.response = JSON.stringify(item.response, null, 2);
           item.date = getDate(item.updatedAt).substring(0, 16);

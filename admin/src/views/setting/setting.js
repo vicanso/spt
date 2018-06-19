@@ -35,7 +35,7 @@ export default {
             'cache-control': 'no-cache',
           },
         });
-        this.settings = _.map(res.data.list, (item) => {
+        this.settings = _.map(res.data.settings, (item) => {
           // eslint-disable-next-line
           item.data = JSON.stringify(item.data, null, 2);
           item.date = getDate(item.updatedAt).substring(0, 16);

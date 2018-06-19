@@ -30,6 +30,7 @@ function addToRouter(category, fns) {
 }
 
 router.addDefault('common', middlewares.common.routeStats());
+router.addDefault('common', middlewares.common.routeLimiter());
 
 addToRouter('c', controllers);
 addToRouter('m.noQuery', middlewares.common.noQuery());
@@ -45,4 +46,4 @@ addToRouter('m.version', middlewares.common.version);
 addToRouter('m.tracker', middlewares.tracker);
 addToRouter('m.delayUntil', middlewares.common.delayUntil);
 
-export default getRouter(routes);
+export default getRouter(_.flatten(_.values(routes)));

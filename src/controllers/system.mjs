@@ -12,6 +12,7 @@ import * as config from '../config';
 import * as globals from '../helpers/globals';
 import * as mongo from '../helpers/mongo';
 import logger from '../helpers/logger';
+import routes from '../routes';
 
 const readFile = util.promisify(fs.readFile);
 
@@ -258,4 +259,23 @@ export async function adminIndex(ctx) {
   // 根据系统启动环境替换前端配置
   const envScript = `var ENV = '${config.env}';`;
   ctx.body = buf.toString().replace("var ENV = 'development';", envScript);
+}
+
+/**
+ * 获取路由配置信息
+ */
+export async function routeList(ctx) {
+  const result = {};
+  _.forEach(routes, (v, k) => {
+    result[k] = _.map(v, item => {
+      const routeInfo = {
+        method: item[0],
+        path: item[1],
+        middlewares: item[2],
+      };
+      return routeInfo;
+    });
+  });
+  ctx.setCache('1m');
+  ctx.body = result;
 }

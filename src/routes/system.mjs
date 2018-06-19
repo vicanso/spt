@@ -3,6 +3,7 @@ import * as config from '../config';
 const adminRoute = `${config.get('adminPath')}/`;
 
 export default [
+  ['GET', '/sys/routes', 'm.noQuery & c.system.routeList'],
   ['PUT', '/sys/exit', 'm.admin & c.system.exit'],
   ['PUT', '/sys/pause', 'm.admin & c.system.pause'],
   [
