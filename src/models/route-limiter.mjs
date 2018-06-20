@@ -35,6 +35,10 @@ const schema = {
   time: {
     type: [String],
   },
+  creator: {
+    type: String,
+    required: true,
+  },
 };
 
 export default function init() {

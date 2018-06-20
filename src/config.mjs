@@ -43,8 +43,8 @@ export const session = {
 
 // http connection limit options
 export const connectLimitOptions = {
-  mid: 100,
-  high: 500,
+  mid: 500,
+  high: 1000,
   interval: 5000,
 };
 

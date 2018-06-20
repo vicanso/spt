@@ -70,6 +70,7 @@ export async function add(ctx) {
     time: schema.time(),
     status: schema.status(),
   });
+  data.creator = ctx.session.user.account;
   await routeLimiterService.add(data);
   ctx.status = 201;
 }

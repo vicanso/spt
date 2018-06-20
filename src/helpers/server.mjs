@@ -60,7 +60,7 @@ export default function createServer() {
   // http log
   /* istanbul ignore if */
   if (isDevelopment()) {
-    app.use(koaLog('dev'));
+    // app.use(koaLog('dev'));
   } else {
     /* istanbul ignore next */
     koaLog.morgan.token('request-id', ctx => ctx.get('X-Request-Id') || '-');

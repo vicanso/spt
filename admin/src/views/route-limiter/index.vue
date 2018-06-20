@@ -19,6 +19,7 @@
     )
       el-input(
         v-model="form.name"
+        placeholder="route limiter's name"
         autofocus
       )
     el-form-item(
@@ -26,6 +27,7 @@
     )
       el-input(
         v-model="form.path"
+        placeholder="route path"
       )
     el-form-item(
       label="Method"
@@ -53,6 +55,28 @@
           :label="item"
           :value="item"
         )
+    el-form-item(
+      label="Date"
+    )
+      el-date-picker(
+        style="width:100%"
+        v-model="form.date"
+        type="datetimerange"
+        range-separator="To"
+        start-placeholder="Start date"
+        end-placeholder="End date"
+      )
+    el-form-item(
+      label="Time"
+    )
+      el-time-picker(
+        style="width:100%"
+        is-range
+        v-model="form.time"
+        range-separator="To"
+        start-placeholder="Start time"
+        end-placeholder="End time"
+      )
     el-form-item
       el-button(
         type="primary"
