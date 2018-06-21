@@ -6,7 +6,7 @@ const schema = {
   name: () =>
     Joi.string()
       .trim()
-      .min(4)
+      .min(2)
       .max(32),
   path: () =>
     Joi.string()
@@ -51,7 +51,7 @@ const schema = {
  *        description: 获取成功时返回
  */
 export async function list(ctx) {
-  const docs = await routeLimiterService.find({}).lean();
+  const docs = await routeLimiterService.find({});
   ctx.body = {
     routeLimits: docs,
   };

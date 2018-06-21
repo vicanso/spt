@@ -5,6 +5,50 @@
     v-if="mode === 0"
   )
     p.tac(v-if="!routeLimits || routeLimits.length === 0") There isn't any route limit
+    el-table.table(
+      v-else
+      :data="routeLimits"
+    )
+      el-table-column(
+        prop="name"
+        label="Name"
+        width="150"
+      )
+      el-table-column(
+        prop="path"
+        label="Path"
+        width="200"
+      )
+      el-table-column(
+        prop="method"
+        label="Method"
+        width="80"
+      )
+      el-table-column(
+        prop="status"
+        label="Status"
+        width="90"
+      )
+      el-table-column(
+        prop="dateDesc"
+        label="Date"
+        width="350"
+      )
+      el-table-column(
+        prop="timeDesc"
+        label="Time"
+        width="150"
+      )
+      el-table-column(
+        label="OP"
+      )
+        template(
+          slot-scope="scope"
+        )
+          el-button(
+            type="text"
+            @click.native="edit(scope.row.id)"
+          ) Edit
     el-button.addRouteLimit.mtop10(
       type="primary"
       @click.native="add"
@@ -46,7 +90,7 @@
       label="Status"
     )
       el-select(
-        v-model="form.statuses"
+        v-model="form.status"
         placeholder="select status"
       )
         el-option(
