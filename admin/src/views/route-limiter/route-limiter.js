@@ -108,6 +108,18 @@ export default {
       this.form = _.cloneDeep(_.find(this.routeLimits, item => item.id === id));
       this.mode = 1;
     },
+    async remove(id) {
+      try {
+        await this.$confirm('Are you sure to remove the route limit?')
+        await request.delete(`${ROUTE_LIMITS}/${id}`);
+        this.loadRouteLimits(); 
+      } catch (err) {
+        if (err === 'cancel') {
+          return
+        }
+        this.$error(err);
+      }
+    },
   },
   beforeMount() {
     this.loadRouteLimits();

@@ -1373,9 +1373,9 @@ data-urls@^1.0.0:
     whatwg-mimetype "^2.0.0"
     whatwg-url "^6.4.0"
 
-dayjs@^1.6.5:
-  version "1.6.5"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.6.5.tgz#d7c18785990f6d839161b84f4cc924d9324dfa33"
+dayjs@^1.6.9:
+  version "1.6.9"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.6.9.tgz#b3568220ac9d71fc295392aaaa5cf9e0e00232f2"
 
 debug@*, debug@^3.0.0, debug@^3.0.1, debug@^3.1.0:
   version "3.1.0"

@@ -49,6 +49,10 @@
             type="text"
             @click.native="edit(scope.row.id)"
           ) Edit
+          el-button(
+            type="text"
+            @click.native="remove(scope.row.id)"
+          ) Remove
     el-button.addRouteLimit.mtop10(
       type="primary"
       @click.native="add"

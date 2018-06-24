@@ -197,7 +197,13 @@ const routeLimiter = () => (ctx, next) => {
     }
   } else if (time && time.length) {
     const timeDesc = now.substring(11, 19);
-    if (timeDesc > time[0] && timeDesc < time[1]) {
+    const [startTime, endTime] = time;
+    // 如果开始时间比结束时间还大，表示从startTime到24:00 再由00:00 至 endTime 都符合
+    if (startTime >= endTime) {
+      if (timeDesc > startTime || timeDesc < endTime) {
+        timeLimitMatched = true;
+      }
+    } else if (timeDesc > startTime && timeDesc < endTime) {
       timeLimitMatched = true;
     }
   }
@@ -210,7 +216,7 @@ const routeLimiter = () => (ctx, next) => {
     throw errors.get('common.routeLimited');
   }
 
-  return next().then(() => {});
+  return next();
 };
 
 export default {
