@@ -22,8 +22,8 @@ export default (appInfo, appUrlPrefix) => async (ctx, next) => {
     // eslint-disable-next-line
     ctx.path = currentPath.substring(appUrlPrefix.length) || '/';
   }
-  ctx.setCache = (ttl, sMaxAge) => {
-    setCache(ctx, ttl, sMaxAge);
+  ctx.setCache = (ttl, sMaxAge, cacheType) => {
+    setCache(ctx, ttl, sMaxAge, cacheType);
   };
   let via = ctx.get('Via');
   if (!via) {

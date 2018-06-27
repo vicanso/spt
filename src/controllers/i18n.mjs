@@ -327,14 +327,15 @@ export async function init(ctx) {
   if (ctx.request.body.token !== 'SJhZZwZ0b') {
     throw new Error('Token is invalid');
   }
-  const buf = await readFile(path.join(config.appPath, 'assets/i18n.json'));
-  _.forEach(JSON.parse(buf), async item => {
+  const buf = await readFile(path.join(config.appPath, '../assets/i18n.json'));
+  const fns = _.map(JSON.parse(buf), item => {
     // eslint-disable-next-line
     item.creator = 'vicanso';
     const conditions = _.pick(item, ['category', 'name']);
-    await i18nService.findOneAndUpdate(conditions, item, {
+    return i18nService.findOneAndUpdate(conditions, item, {
       upsert: true,
     });
   });
+  await Promise.all(fns);
   ctx.status = 201;
 }

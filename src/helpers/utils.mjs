@@ -80,17 +80,17 @@ export function isProduction() {
  * @param ctx
  * @param ttl
  * @param sMaxAge
+ * @param cacheType
  */
-export function setCache(ctx, ttl, sMaxAge) {
+export function setCache(ctx, ttl, sMaxAge, cacheType = 'public') {
   let seconds = ttl;
   if (_.isString(seconds)) {
     seconds = _.ceil(ms(ttl) / 1000);
   }
-  let cacheControl = `public, max-age=${seconds}`;
+  let cacheControl = `${cacheType}, max-age=${seconds}`;
   const isDev = !isProduction();
   let sMaxAgeSeconds = isDev ? seconds : 0;
   const maxCacheAge = 60;
-
   if (sMaxAge) {
     sMaxAgeSeconds = sMaxAge;
     if (_.isString(sMaxAgeSeconds)) {
