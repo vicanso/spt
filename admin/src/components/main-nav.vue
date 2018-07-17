@@ -1,15 +1,15 @@
 <template lang="pug">
-  .mainNav
-    el-menu(
-      :default-active="active"
+.mainNav
+  el-menu(
+    :default-active="active"
+  )
+    el-menu-item(
+      v-for="(item, index) in items",
+      :key="index",
+      :index="'' + index"
+      @click.native="go(item)"
     )
-      el-menu-item(
-        v-for="(item, index) in items",
-        :key="index",
-        :index="'' + index"
-        @click.native="go(item)"
-      )
-        span {{item.name}}
+      span {{item.name}}
 </template>
 
 <style lang="sass" scoped>

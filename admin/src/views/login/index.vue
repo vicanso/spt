@@ -1,32 +1,32 @@
 <template lang="pug">
-  .loginPage
-    el-form.form(
-      ref="form"
-      v-model="form"
-      label-width="100px"
+.loginPage
+  el-form.form(
+    ref="form"
+    v-model="form"
+    label-width="100px"
+  )
+    h3.tac Login
+    el-form-item(
+      label="Account"
     )
-      h3.tac Login
-      el-form-item(
-        label="Account"
+      el-input(
+        v-model="form.account"
+        @keyup.enter.native="submit"
+        autofocus
       )
-        el-input(
-          v-model="form.account"
-          @keyup.enter.native="submit"
-          autofocus
-        )
-      el-form-item(
-        label="Password"
+    el-form-item(
+      label="Password"
+    )
+      el-input(
+        v-model="form.password"
+        @keyup.enter.native="submit"
+        type="password"
       )
-        el-input(
-          v-model="form.password"
-          @keyup.enter.native="submit"
-          type="password"
-        )
-      el-form-item(style="margin-bottom:0")
-        el-button(
-          type='primary'
-          @click="submit"
-        ) Submit
+    el-form-item(style="margin-bottom:0")
+      el-button(
+        type='primary'
+        @click="submit"
+      ) Submit
 </template>
 <style lang="sass" scoped>
 .loginPage

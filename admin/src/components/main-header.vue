@@ -1,25 +1,25 @@
 <template lang="pug">
-  .mainHeader
-    .pullRight(style="margin-right:15px")
-      span(v-if='!userInfo') Loading...
-      div(
-        v-else-if='userInfo.anonymous'
-      )
-        el-button(
-          type="text"
-          @click="$router.push({name: 'register'})"
-        ) register
-        el-button(
-          type="text"
-          @click="$router.push({name: 'login'})"
-        ) login
-      div(v-else)
-        span.mright10 {{userInfo.account}}
-        el-button(
-          type="text"
-          @click="userLogout"
-        ) logout
-    .logo SPT 
+.mainHeader
+  .pullRight(style="margin-right:15px")
+    span(v-if='!userInfo') Loading...
+    div(
+      v-else-if='userInfo.anonymous'
+    )
+      el-button(
+        type="text"
+        @click="$router.push({name: 'register'})"
+      ) register
+      el-button(
+        type="text"
+        @click="$router.push({name: 'login'})"
+      ) login
+    div(v-else)
+      span.mright10 {{userInfo.account}}
+      el-button(
+        type="text"
+        @click="userLogout"
+      ) logout
+  .logo SPT 
 </template>
 <style lang="sass" scoped>
 @import "../variables";
