@@ -1,10 +1,8 @@
 import mongoose from 'mongoose';
 
-import {isDevelopment} from '../helpers/utils';
+import {I18n} from './names';
 
 const {Schema} = mongoose;
-
-const name = 'I18n';
 
 const schema = {
   name: {
@@ -29,7 +27,6 @@ const schema = {
 export default function init() {
   const s = new Schema(schema, {
     timestamps: true,
-    autoIndex: isDevelopment(),
   });
   s.index(
     {
@@ -58,7 +55,7 @@ export default function init() {
     },
   );
   return {
-    name,
+    name: I18n,
     schema: s,
   };
 }
