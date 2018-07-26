@@ -17,7 +17,6 @@ export function init(app) {
   }
   sessionMiddleware = koaSession(app, {
     store: sessionStore,
-    // store: createSessionStore(1000),
     key: config.session.key,
     maxAge: config.session.maxAge,
     beforeSave: (ctx, session) => {

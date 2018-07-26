@@ -18,6 +18,7 @@ function get(key) {
   return createError(item.status || 500, err, {
     code: `${app}-${item.code}`,
     expected: true,
+    custom: true,
   });
 }
 
@@ -25,6 +26,7 @@ function create(...args) {
   const err = createError(...args);
   // 主动抛出的error设置expected，可以通过判断expected是否为true来识别是否为未知error
   err.expected = true;
+  err.custom = true;
   return err;
 }
 

@@ -133,3 +133,24 @@ export function createContext(requestUrl) {
   };
   return ctx;
 }
+
+// getErrorExtraInfo 通过err获取file
+export function getErrorExtraInfo(err) {
+  if (!err || !err.stack) {
+    return null;
+  }
+  const arr = err.stack.split('\n');
+  // 如果是自定义创建的出错，则取2
+  const index = err.custom ? 2 : 1;
+  const msg = arr[index];
+  if (!msg) {
+    return null;
+  }
+  const reg = /at (\S+) \(file:\/\/([\s\S]+?)\)/g;
+  const result = reg.exec(arr[index]);
+  const file = (result[2] || '').replace(config.appPath, '');
+  return {
+    function: result[1] || 'unknown',
+    file,
+  };
+}

@@ -9,6 +9,7 @@ import {env} from '../config';
 import influx from '../helpers/influx';
 import stringify from '../helpers/stringify';
 import logger from '../helpers/logger';
+import {getErrorExtraInfo} from '../helpers/utils';
 
 /**
  * HTTP请求出错中间件处理，根据出错的Error对象，记录出错的url,code,userToken,
@@ -44,6 +45,7 @@ export default () => (ctx, next) =>
     if (env !== 'production') {
       data.stack = error.stack.replace(/\n/g, '');
     }
+    data.extra = getErrorExtraInfo(err);
     const logList = [];
     if (data.expected) {
       logList.push('[H-E]');

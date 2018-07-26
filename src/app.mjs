@@ -11,6 +11,7 @@ import createServer from './helpers/server';
 import * as globals from './helpers/globals';
 import logger from './helpers/logger';
 import './schedules';
+import {getErrorExtraInfo} from './helpers/utils';
 
 function mongodbReady() {
   return new Promise(resolve => {
@@ -41,5 +42,8 @@ Promise.all([
     globals.start();
   })
   .catch(err => {
-    logger.error(`the application isn't ready, ${err.message}`);
+    logger.error(
+      `the application isn't ready, ${err.message},`,
+      getErrorExtraInfo(err),
+    );
   });

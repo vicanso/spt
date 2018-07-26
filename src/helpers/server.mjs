@@ -19,7 +19,7 @@ export default function createServer() {
   const app = new Koa();
   // trust proxy
   app.proxy = true;
-  app.keys = config.get('cookieSigKeys');
+  app.keys = config.get('secret');
 
   middlewares.session.init(app);
 
