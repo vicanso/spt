@@ -5,34 +5,43 @@ import Mock from '../views/mock';
 import Tracker from '../views/tracker';
 import RouteLimiter from '../views/route-limiter';
 
+export const Routes = {
+  Register: 'register',
+  Login: 'login',
+  Setting: 'setting',
+  Mock: 'mock',
+  Tracker: 'tracker',
+  RouteLimiter: 'route-limiter',
+};
+
 export default [
   {
-    name: 'register',
+    name: Routes.Register,
     path: '/register',
     component: Register,
   },
   {
-    name: 'setting',
+    name: Routes.Setting,
     path: '/setting',
     component: Setting,
   },
   {
-    name: 'login',
+    name: Routes.Login,
     path: '/login',
     component: Login,
   },
   {
-    name: 'mock',
+    name: Routes.Mock,
     path: '/mock',
     component: Mock,
   },
   {
-    name: 'tracker',
+    name: Routes.Tracker,
     path: '/tracker',
     component: Tracker,
   },
   {
-    name: 'route-limiter',
+    name: Routes.RouteLimiter,
     path: '/route-limiter',
     component: RouteLimiter,
   },

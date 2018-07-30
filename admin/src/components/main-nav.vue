@@ -24,28 +24,40 @@
   z-index: 9
 </style>
 <script>
+import _ from 'lodash';
+
+import {Routes} from '../router/routes';
 export default {
   data() {
+    const {current} = this.$router.history;
+    let active = '0';
+    const routes = [
+      {
+        name: 'System Setting',
+        route: Routes.Setting,
+      },
+      {
+        name: 'Mock',
+        route: Routes.Mock,
+      },
+      {
+        name: Routes.RouteLimiter,
+        route: 'route-limiter',
+      },
+      {
+        name: Routes.Tracker,
+        route: 'tracker',
+      },
+    ];
+    _.forEach(routes, (item, i) => {
+      if (item.route === current.name) {
+        active = `${i}`;
+      }
+    });
+
     return {
-      active: '0',
-      items: [
-        {
-          name: 'System Setting',
-          route: 'setting',
-        },
-        {
-          name: 'Mock',
-          route: 'mock',
-        },
-        {
-          name: 'Route Limiter',
-          route: 'route-limiter',
-        },
-        {
-          name: 'Tracker',
-          route: 'tracker',
-        },
-      ],
+      active,
+      items: routes,
     };
   },
   methods: {
