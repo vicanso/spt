@@ -118,8 +118,11 @@ export async function register(ctx) {
     account: schema.account().required(),
     password: schema.password().required(),
     email: schema.email().required(),
-    roles: schema.roles(),
   });
+  // 第一个注册账号设置为su权限
+  if (!(await userService.exists({}))) {
+    data.roles = ['su'];
+  }
   const doc = await userService.register(data);
   const track = ctx.cookies.get(config.trackCookie);
   const user = pickUserInfo(doc, track);
